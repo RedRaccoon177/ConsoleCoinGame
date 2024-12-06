@@ -23,16 +23,4 @@
 ### 🖱️ 주요 기능
 **- 차트 기능** <br>
 **- 매수 및 매도 기능** <br>
-
-
-
-
-```cs
-
-Console.WriteLine("hello");
-
-```
-
-![이미지 깨졌음](https://develrocket-bucket.s3.ap-northeast-2.amazonaws.com/learning/XRP-101/XRP-10103_OOPnDataStructure/XRP-1010301_OOPDevelopment/XRP-101030104_ClassStatic/img_01.png)
-
-
+추후 추가 작성 필요
