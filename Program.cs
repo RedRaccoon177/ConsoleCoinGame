@@ -14,6 +14,7 @@ namespace Day12_Project_GameDevleop
 {
     internal class Program
     {
+        #region  (구조체) 코인
         public struct Coin              //코인 구조체
         {
             public string Name;             //코인의 이름
@@ -23,9 +24,11 @@ namespace Day12_Project_GameDevleop
             public float beforePrice;       //전의 코인 가격    
             public float trunChangPrice;    //소수점 컷 수들
         }
+        #endregion
 
         static void Main(string[] args)
         {
+            Console.Title = "코인 가즈아아아아앗!!!";    // 타이틀 이름
 
             #region 게임 시작 화면
             /*while (true)
@@ -59,20 +62,28 @@ namespace Day12_Project_GameDevleop
                 }
             }*/
             #endregion
-            Random randomD = new Random();
-            
+            Random randomD = new Random();                // 차트 상승 혹은 하락장의 확률 선언
+
             Coin[] coin = new Coin[6];                    // Coin 구조체 선언
 
-            float myMoney = 1000f;                                      //나의 현재 보유 금액
+            float myMoney = 10000f;                                      //나의 현재 보유 금액
             float[] myCoinSMoney = new float[6];                        //전체 코인 보유 금액을 위한 작은 것
+
             for (int i = 0; i < coin.Length; i++)
             {
                 myCoinSMoney[i] = 0;
             }
             float myCoinMoney = 0;
 
+            #region 코인 구매 시 코인 소유 갯수 
+            for (int i = 0; i < coin.Length; i++)
+            {
+                coin[i].coinCount = 0;
+            }
+            #endregion
+
             #region 코인 6개 이름
-            coin[0].Name = "비트코인";                     
+            coin[0].Name = "비트코인";
             coin[1].Name = "이더리움";
             coin[2].Name = "리플코인";
             coin[3].Name = "경일코인";
@@ -80,24 +91,14 @@ namespace Day12_Project_GameDevleop
             coin[5].Name = "계엄코인";
             #endregion
 
-            #region 코인 구매 시 코인 소유 갯수 
-            for (int i = 0; i < coin.Length; i++)        
-            {
-                coin[i].coinCount = 0;
-            }
-            #endregion
-
             #region 코인 처음 가격
             coin[0].afterPrice = 100;
-            coin[1].afterPrice = 10000;
-            coin[2].afterPrice = 10000;
-            coin[3].afterPrice = 10000;
-            coin[4].afterPrice = 10000;
-            coin[5].afterPrice = 10000;
+            coin[1].afterPrice = 100;
+            coin[2].afterPrice = 10;
+            coin[3].afterPrice = 100;
+            coin[4].afterPrice = 1;
+            coin[5].afterPrice = 1000000;
             #endregion
-
-            Console.Title = "코인 가즈아아아아앗!!!";    // 타이틀 이름
-            Console.SetWindowSize(100, 50);         // 가로, 세로 창 시작
 
             #region Console.WriteLine 인게임 화면 출력창
             //Console.Clear();
@@ -108,7 +109,7 @@ namespace Day12_Project_GameDevleop
             //Console.WriteLine("|                                                              |");
             //Console.WriteLine("|                                                              |");
             //Console.WriteLine("|                                                              |");
-            //Console.WriteLine("|                                                              |");
+            //Console.WriteLine("|                     여기 안에 코인 차트                       |");
             //Console.WriteLine("|                                                              |");
             //Console.WriteLine("|                                                              |");
             //Console.WriteLine("|                                                              |");
@@ -177,7 +178,7 @@ namespace Day12_Project_GameDevleop
                     Console.WriteLine("2번. 코인 매도");
                     Console.WriteLine("3번. 코인 뉴스");
                     Console.WriteLine("4번. 예수금 벌기");
-                    
+
                     dayby++;
                     if (dayby > 3)
                     {
@@ -198,74 +199,41 @@ namespace Day12_Project_GameDevleop
 
                         playerKeydown0 = int.TryParse(Console.ReadLine(), out playerInput);
 
-                        if(playerKeydown0 == true)
+                        if (playerKeydown0 == true)
 
                         {
-                            switch (playerInput) 
+                            switch (playerInput)
                             {
                                 case 1:
                                     for (int i = 0; i < coin.Length; i++)
                                     {
-                                        Console.WriteLine($"{i+1}. {coin[i].Name}의 현재 시세는 {coin[i].afterPrice}입니다. 매수 하실겁니까?");
+                                        Console.WriteLine($"{i + 1}. {coin[i].Name}의 현재 시세는 {coin[i].afterPrice}입니다. 매수 하실겁니까?");
                                     }
 
                                     Console.WriteLine("무슨 코인을 매수 할 것인가?");
                                     playerKeydown1 = int.TryParse(Console.ReadLine(), out playerBuyBtn);
 
-                                    switch (playerBuyBtn)
-                                    {
-                                            case 1:
-                                            PriceDivideMyMoney = (myMoney / coin[0].afterPrice);
-                                            PriceDivideMyMoney = (int)PriceDivideMyMoney;
-                                            Console.WriteLine($"{coin[0].Name}은 최대 {PriceDivideMyMoney} 개 매수 가능합니다.");
-                                            if (PriceDivideMyMoney == 0)
-                                            {
-                                                Console.WriteLine("매수 불가능 기능 추가");
-                                            }
-                                            else
-                                            {
-                                                while (true)
-                                                {
-                                                    bool coco = int.TryParse(Console.ReadLine(),out playerHowManyBuy);
-                                                   
-                                                    if (playerHowManyBuy == 0)                          //매수 가능 갯수를 0이 아니라고 했을 때
-                                                    {
-                                                        Console.WriteLine("0 혹은 글자를 입력한 듯");
-                                                    }
-                                                    else if (playerHowManyBuy > PriceDivideMyMoney)     //매수 가능 갯수를 초과 했을 경우 
-                                                    {
-                                                        Console.WriteLine("매수 가능 갯수를 초과하셨습니다. 다시 입력하시오.");
-                                                    }
-                                                    else  if(1<= playerHowManyBuy && playerHowManyBuy <= PriceDivideMyMoney)
-                                                    {
-                                                        Console.WriteLine("매수 되었습니다. 기능 추가");
-                                                        //코인 갯수 증가
-                                                        coin[0].coinCount = coin[0].coinCount + playerHowManyBuy;
-                                                        
-                                                        //예수금 감소
-                                                        myMoney = myMoney - (coin[0].afterPrice * playerHowManyBuy);
+                                    PriceDivideMyMoney = (myMoney / coin[0].afterPrice);
+                                    PriceDivideMyMoney = (int)PriceDivideMyMoney;
 
-                                                        //총 코인 금액 = (코인 카운트 * 코인 실시간 가격)
-                                                        
-
-                                                        break;
-                                                    }
-                                                }
-                                            }
-                                            //BuyACoin();
-                                            break;
-                                    }
+                                    BuyOrSell(coin, playerBuyBtn, ref PriceDivideMyMoney, ref myMoney, ref playerHowManyBuy);
 
                                     break;
-                                    case 2:
+
+                                #region(추후 진행) 매도, 뉴스, 돈벌기 시스템 아직
+                                case 2:
                                     Console.WriteLine("2번 매도 창으로 이동");
                                     break;
-                                    case 3:
+
+                                case 3:
                                     Console.WriteLine("3번 뉴스 창으로 이동");
-                                    break ;
-                                    case 4:
+                                    break;
+
+                                case 4:
                                     Console.WriteLine("4번 예수금 벌기 창으로 이동");
-                                    break ;
+                                    break;
+
+                                    #endregion
                             }
                         }
                         stopwatch.Start();                  //시간 다시 작동해!!!!
@@ -437,20 +405,164 @@ namespace Day12_Project_GameDevleop
         #endregion
 
         #region (함수) 매수 시스템
-        //static int BuyOrSell()
-        //{
+        static Coin[] BuyOrSell(Coin[] coin, int inputA, ref float divideMoney, ref float myMoneys, ref int howManyBuy)
+        {
+            while (true)
+            {
+                if (inputA == 1)
+                {
+                    Console.WriteLine($"{coin[inputA - 1].Name}은 최대 {divideMoney} 개 매수 가능합니다.");
+                    if (divideMoney == 0)
+                    {
+                        Console.WriteLine("0개는 매수가 불가능 합니다. (매수 불가능 기능 추가)");
+                    }
+                    else
+                    {
+                        while (true)
+                        {
+                            bool coco = int.TryParse(Console.ReadLine(), out howManyBuy);
 
-        //    return
-        //}
+                            BuyACoin(coin, ref howManyBuy, ref divideMoney, ref myMoneys, (inputA - 1));
+
+                            break;
+                        }
+                    }
+                    break;
+                }
+                else if (inputA == 2)
+                {
+                    Console.WriteLine($"{coin[inputA - 1].Name}은 최대 {divideMoney} 개 매수 가능합니다.");
+                    if (divideMoney == 0)
+                    {
+                        Console.WriteLine("0개는 매수가 불가능 합니다. (매수 불가능 기능 추가)");
+                    }
+                    else
+                    {
+                        while (true)
+                        {
+                            bool coco = int.TryParse(Console.ReadLine(), out howManyBuy);
+
+                            BuyACoin(coin, ref howManyBuy, ref divideMoney, ref myMoneys, (inputA - 1));
+
+                            break;
+                        }
+                    }
+                    break;
+                }
+                else if (inputA == 3)
+                {
+                    Console.WriteLine($"{coin[inputA - 1].Name}은 최대 {divideMoney} 개 매수 가능합니다.");
+                    if (divideMoney == 0)
+                    {
+                        Console.WriteLine("0개는 매수가 불가능 합니다. (매수 불가능 기능 추가)");
+                    }
+                    else
+                    {
+                        while (true)
+                        {
+                            bool coco = int.TryParse(Console.ReadLine(), out howManyBuy);
+
+                            BuyACoin(coin, ref howManyBuy, ref divideMoney, ref myMoneys, (inputA - 1));
+
+                            break;
+                        }
+                    }
+                    break;
+                }
+                else if (inputA == 4)
+                {
+                    Console.WriteLine($"{coin[inputA - 1].Name}은 최대 {divideMoney} 개 매수 가능합니다.");
+                    if (divideMoney == 0)
+                    {
+                        Console.WriteLine("0개는 매수가 불가능 합니다. (매수 불가능 기능 추가)");
+                    }
+                    else
+                    {
+                        while (true)
+                        {
+                            bool coco = int.TryParse(Console.ReadLine(), out howManyBuy);
+
+                            BuyACoin(coin, ref howManyBuy, ref divideMoney, ref myMoneys, (inputA - 1));
+
+                            break;
+                        }
+                    }
+                    break;
+                }
+                else if (inputA == 5)
+                {
+                    Console.WriteLine($"{coin[inputA - 1].Name}은 최대 {divideMoney} 개 매수 가능합니다.");
+                    if (divideMoney == 0)
+                    {
+                        Console.WriteLine("0개는 매수가 불가능 합니다. (매수 불가능 기능 추가)");
+                    }
+                    else
+                    {
+                        while (true)
+                        {
+                            bool coco = int.TryParse(Console.ReadLine(), out howManyBuy);
+
+                            BuyACoin(coin, ref howManyBuy, ref divideMoney, ref myMoneys, (inputA - 1));
+
+                            break;
+                        }
+                    }
+                    break;
+                }
+                else if (inputA == 6)
+                {
+                    Console.WriteLine($"{coin[inputA - 1].Name}은 최대 {divideMoney} 개 매수 가능합니다.");
+                    if (divideMoney == 0)
+                    {
+                        Console.WriteLine("0개는 매수가 불가능 합니다. (매수 불가능 기능 추가)");
+                    }
+                    else
+                    {
+                        while (true)
+                        {
+                            bool coco = int.TryParse(Console.ReadLine(), out howManyBuy);
+
+                            BuyACoin(coin, ref howManyBuy, ref divideMoney, ref myMoneys, (inputA - 1));
+
+                            break;
+                        }
+                    }
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine($"1번부터 ~ {coin.Length}번까지의 선택지 중 한가지를 선택하시오.");
+                }
+            }
+            return coin;
+        }
         #endregion
 
-        #region 매수 코인 선택 시 매수 체결 시스템
-        //static int BuyACoin(int howManyCoin)
-        //{
-        //    Console.WriteLine("1번 코인을 몇개 매수하시겠습니까?");
-        //    Console.WriteLine("현재 매수 가능한 최대 갯수: 몇개");
-        //    Console.Write("입력하시오: ");
-        //}
+        #region (함수) 매수 코인 선택 시 매수 체결 시스템
+        static Coin[] BuyACoin(Coin[] coinss, ref int howManyCoin, ref float PriceDivideMyMoney1, ref float myMoneys, int needint)
+        {
+            if (howManyCoin == 0)                          //매수 가능 갯수를 0이 아니라고 했을 때
+            {
+                Console.WriteLine("0 혹은 글자를 입력한 듯");
+            }
+            else if (howManyCoin > PriceDivideMyMoney1)     //매수 가능 갯수를 초과 했을 경우 
+            {
+                Console.WriteLine("매수 가능 갯수를 초과하셨습니다. 다시 입력하시오.");
+            }
+            else if (1 <= howManyCoin && howManyCoin <= PriceDivideMyMoney1)
+            {
+                Console.WriteLine($"{coinss[needint].Name}매수 되었습니다.");
+                //코인 갯수 증가
+                coinss[needint].coinCount = coinss[needint].coinCount + howManyCoin;
+
+                //예수금 감소
+                myMoneys = myMoneys - (coinss[needint].afterPrice * howManyCoin);
+            }
+            return coinss;
+        }
         #endregion
+
+        //
+
     }
 }
