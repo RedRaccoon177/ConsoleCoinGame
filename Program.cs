@@ -92,7 +92,7 @@ namespace Day12_Project_GameDevleop
             #endregion
 
             #region 코인 처음 가격
-            coin[0].afterPrice = 100;
+            coin[0].afterPrice = 10000;
             coin[1].afterPrice = 100;
             coin[2].afterPrice = 10;
             coin[3].afterPrice = 100;
@@ -146,7 +146,6 @@ namespace Day12_Project_GameDevleop
             stopwatch.Start();                                  //시간이 흐르기 시작한다. 멈추고 싶으면 Stop해주면 됨
             int lastExecutionTime0 = 0;                          // 마지막 실행 시간을 저장할 변수
             int lastExecutedTime1 = 0;
-            int lastExecutedTime2 = 0;
             bool[] inpu = new bool[6];
 
             int theTime = 0;
@@ -156,7 +155,7 @@ namespace Day12_Project_GameDevleop
                 //stopwatch.ElapsedMilliseconds 실제 시간 흐르는 것 1000 = 1초
                 int second = (int)stopwatch.ElapsedMilliseconds / 1000;     //1초의 흐름 시간 선언
 
-                if (second - lastExecutedTime2 >= 1)
+                if (second - lastExecutedTime1 >= 1)
                 {
                     #region 실시간 차트, 예수금, 코인총액, 날짜 변경 출력창
                     Console.Clear();
@@ -213,7 +212,10 @@ namespace Day12_Project_GameDevleop
                                     Console.WriteLine("무슨 코인을 매수 할 것인가?");
                                     playerKeydown1 = int.TryParse(Console.ReadLine(), out playerBuyBtn);
 
-                                    PriceDivideMyMoney = (myMoney / coin[0].afterPrice);
+                                    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+                                    PriceDivideMyMoney = (myMoney / coin[playerBuyBtn-1].afterPrice);
+                                    
+                                    
                                     PriceDivideMyMoney = (int)PriceDivideMyMoney;
 
                                     Buy(coin, playerBuyBtn, ref PriceDivideMyMoney, ref myMoney, ref playerHowManyBuy);
@@ -231,7 +233,10 @@ namespace Day12_Project_GameDevleop
 
                                     playerKeydown1 = int.TryParse(Console.ReadLine(), out playerBuyBtn);
 
-                                    PriceDivideMyMoney = (myMoney / coin[0].afterPrice);
+                                    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2
+                                    PriceDivideMyMoney = (myMoney / coin[playerBuyBtn-1].afterPrice);
+                                    
+                                    
                                     PriceDivideMyMoney = (int)PriceDivideMyMoney;
 
                                     Sell(coin, playerBuyBtn, ref PriceDivideMyMoney, ref myMoney, ref playerHowManyBuy);
@@ -262,7 +267,7 @@ namespace Day12_Project_GameDevleop
                     myCoinMoney = myCoinSMoney[0] + myCoinSMoney[1] + myCoinSMoney[2] + myCoinSMoney[3] + myCoinSMoney[4] + myCoinSMoney[5];
 
                     //▼ 마지막 실행 시간을 현재 시간으로 갱신
-                    lastExecutedTime2 = second;
+                    lastExecutedTime1 = second;
                 }
 
                 if (second - lastExecutionTime0 >= 3)     // 3초가 흐를 때 마다 차트 변경
