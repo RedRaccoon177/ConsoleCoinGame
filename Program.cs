@@ -734,13 +734,6 @@ namespace Day12_Project_GameDevleop
 
 
 
-        sdjflsdjsdj
-            df
-            sdf
-            sd
-            fs
-            df
-            sd
 
     }
 }
