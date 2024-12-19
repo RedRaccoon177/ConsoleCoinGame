@@ -212,9 +212,7 @@ namespace Day12_Project_GameDevleop
                                     Console.WriteLine("무슨 코인을 매수 할 것인가?");
                                     playerKeydown1 = int.TryParse(Console.ReadLine(), out playerBuyBtn);
 
-                                    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
                                     PriceDivideMyMoney = (myMoney / coin[playerBuyBtn-1].afterPrice);
-                                    
                                     
                                     PriceDivideMyMoney = (int)PriceDivideMyMoney;
 
@@ -233,9 +231,7 @@ namespace Day12_Project_GameDevleop
 
                                     playerKeydown1 = int.TryParse(Console.ReadLine(), out playerBuyBtn);
 
-                                    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2
                                     PriceDivideMyMoney = (myMoney / coin[playerBuyBtn-1].afterPrice);
-                                    
                                     
                                     PriceDivideMyMoney = (int)PriceDivideMyMoney;
 
