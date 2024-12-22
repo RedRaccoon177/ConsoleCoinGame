@@ -28,46 +28,46 @@ namespace Day12_Project_GameDevleop
 
         static void Main(string[] args)
         {
-            Console.Title = "코인 가즈아아아아앗!!!";    // 타이틀 이름
+            Console.Title = "코인 가즈아아아아앗!!!";  // 타이틀 이름
 
             #region 게임 시작 화면
-            /*while (true)
-            {
-                Console.Clear();
-                Console.WriteLine("----------------------------------------------------------------");
-                Console.WriteLine("|                                                              |");
-                Console.WriteLine("|                        *************                         |");
-                Console.WriteLine("|                    ****             ****                     |");
-                Console.WriteLine("|                  ***      ██████       ***                   |");
-                Console.WriteLine("|                ***        ██    ██       ***                 |");
-                Console.WriteLine("|              ***          ██     ██        ***               |");
-                Console.WriteLine("|              ***          ████████         ***               |");
-                Console.WriteLine("|              ***          ██     ██        ***               |");
-                Console.WriteLine("|                ***        ██    ██       ***                 |");
-                Console.WriteLine("|                  ***      ██████       ***                   |");
-                Console.WriteLine("|                    ****             ****                     |");
-                Console.WriteLine("|                        *************                         |");
-                Console.WriteLine("|                                                              |");
-                Console.WriteLine("----------------------------------------------------------------");
-                Console.WriteLine("1번을 눌러 게임을 시작하시오.");
-                Console.WriteLine("1. 게임 시작");
+            //while (true)
+            //{
+            //    Console.Clear();
+            //    Console.WriteLine("----------------------------------------------------------------");
+            //    Console.WriteLine("|                                                              |");
+            //    Console.WriteLine("|                        *************                         |");
+            //    Console.WriteLine("|                    ****             ****                     |");
+            //    Console.WriteLine("|                  ***      ██████       ***                   |");
+            //    Console.WriteLine("|                ***        ██    ██       ***                 |");
+            //    Console.WriteLine("|              ***          ██     ██        ***               |");
+            //    Console.WriteLine("|              ***          ████████         ***               |");
+            //    Console.WriteLine("|              ***          ██     ██        ***               |");
+            //    Console.WriteLine("|                ***        ██    ██       ***                 |");
+            //    Console.WriteLine("|                  ***      ██████       ***                   |");
+            //    Console.WriteLine("|                    ****             ****                     |");
+            //    Console.WriteLine("|                        *************                         |");
+            //    Console.WriteLine("|                                                              |");
+            //    Console.WriteLine("----------------------------------------------------------------");
+            //    Console.WriteLine("1번을 눌러 게임을 시작하시오.");
+            //    Console.WriteLine("1. 게임 시작");
 
-                bool isStirng = false;
-                int pressStart = 0;
-                isStirng = int.TryParse(Console.ReadLine(), out pressStart);
-                if (pressStart == 1 && isStirng == true)
-                {
-                    Console.Clear();
-                    break;
-                }
-            }*/
+            //    bool isStirng = false;
+            //    int pressStart = 0;
+            //    isStirng = int.TryParse(Console.ReadLine(), out pressStart);
+            //    if (pressStart == 1 && isStirng == true)
+            //    {
+            //        Console.Clear();
+            //        break;
+            //    }
+            //}
             #endregion
-            Random randomD = new Random();                // 차트 상승 혹은 하락장의 확률 선언
+            Random randomD = new Random();     // 차트 상승 혹은 하락장의 확률 선언
 
-            Coin[] coin = new Coin[6];                    // Coin 구조체 선언
+            Coin[] coin = new Coin[6];          // Coin 구조체 선언
 
-            float myMoney = 10000f;                                      //나의 현재 보유 금액
-            float[] myCoinSMoney = new float[6];                        //전체 코인 보유 금액을 위한 작은 것
+            float myMoney = 10000f;   //나의 현재 보유 금액
+            float[] myCoinSMoney = new float[6];  //전체 코인 보유 금액을 위한 작은 것
 
             for (int i = 0; i < coin.Length; i++)
             {
