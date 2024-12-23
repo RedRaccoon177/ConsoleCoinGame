@@ -9,9 +9,8 @@ namespace Day12_Project_GameDevleop
 {
     class GameManager
     {
-        /*
         #region (함수) 매수 시스템
-        static Coin[] Buy(Coin[] coin, int inputA, ref float divideMoney, ref float myMoneys, ref int howManyBuy)
+        public Coin[] Buy(Coin[] coin, int inputA, ref float divideMoney, ref float myMoneys, ref int howManyBuy)
         {
             while (true)
             {
@@ -145,7 +144,7 @@ namespace Day12_Project_GameDevleop
         #endregion
 
         #region (함수) 매수 코인 선택 시 매수 체결 시스템
-        static Coin[] BuyACoin(Coin[] coinss, ref int howManyCoin, ref float PriceDivideMyMoney1, ref float myMoneys, int needint)
+        public Coin[] BuyACoin(Coin[] coinss, ref int howManyCoin, ref float PriceDivideMyMoney1, ref float myMoneys, int needint)
         {
             if (howManyCoin == 0)                          //매수 가능 갯수를 0이 아니라고 했을 때
             {
@@ -169,7 +168,7 @@ namespace Day12_Project_GameDevleop
         #endregion
 
         #region(함수) 매도 시스템
-        static Coin[] Sell(Coin[] coin, int inputA, ref float divideMoney, ref float myMoneys, ref int howManySell)
+        public Coin[] Sell(Coin[] coin, int inputA, ref float divideMoney, ref float myMoneys, ref int howManySell)
         {
             while (true)
             {
@@ -298,7 +297,7 @@ namespace Day12_Project_GameDevleop
         #endregion
 
         #region(함수) 매도 코인 선택 시 매도 체결 시스템
-        static Coin[] SellACoin(Coin[] coin, ref int howManySellCoin, ref float myMoneys, int needint)
+        public Coin[] SellACoin(Coin[] coin, ref int howManySellCoin, ref float myMoneys, int needint)
         {
             if (howManySellCoin == 0)                          //매수 가능 갯수를 0이 아니라고 했을 때
             {
@@ -320,6 +319,6 @@ namespace Day12_Project_GameDevleop
             return coin;
         }
         #endregion
-        */
+
     }
 }

@@ -77,7 +77,7 @@ namespace Day12_Project_GameDevleop
         }
 
         // 게임 시작 시 예수금 출력 값
-        public void PlayerMoney(float myMoney, float? myCoinMoney)
+        public void PlayerMoney(float myMoney, float myCoinMoney)
         {
             Console.WriteLine($"나의 예수금 : {myMoney}");
             Console.WriteLine($"나의 코인 총액 : {myCoinMoney}");
@@ -88,8 +88,8 @@ namespace Day12_Project_GameDevleop
         {
             foreach (var coin in coinList)
             {
-                Console.WriteLine($"현재 {coin.Name}의 가격은: {coin.CoinPrice}");
-                Console.WriteLine($"        {coin.Name} 코인을 보유 중입니다.");
+                Console.Write($"현재 {coin.Name}의 가격은: {coin.CoinPrice}");
+                Console.WriteLine($"        ) {coin.CoinCount} 개 보유 중");
 
                 //일단 코인 금액 다 더한 모든 총액 만들어주기
                 player.PlayerCoinAllMoney = player.PlayerCoinAllMoney + player.PlayerCoinMoney;
@@ -98,7 +98,6 @@ namespace Day12_Project_GameDevleop
             Console.WriteLine($"0일이 지났습니다...");
             Console.WriteLine($"0 / 3");
         }
-
 
     }
 }

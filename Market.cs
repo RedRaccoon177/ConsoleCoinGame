@@ -9,34 +9,30 @@ namespace Day12_Project_GameDevleop
 {
     class Market
     {
-
-        /*
         #region (함수) 입력된 코인의 값을 변동
-        static Coin[] PlusChangeCoin(ref Coin[] coins)       // 입력된 코인의 값을 바꿔줌
+        public Coin[] PlusChangeCoin(ref Coin[] coins)       // 입력된 코인의 값을 바꿔줌
         {
-            int coinChangePercent;                                           // 코인 퍼센트의 확률 0 ~ 100%
-            float[] coinPercentResult = new float[6];                        // 코인의 퍼센트 값 ex) $ 7.2
-            float[] coinChangePrice = new float[6];                          // 얼마나 변할 건지 퍼센트 값 ex) 7.2 %
+            int coinChangePercent;                          // 코인 퍼센트의 확률 0 ~ 100%
+            float[] coinPercentResult = new float[coins.Count()];       // 코인의 퍼센트 값 ex) $ 7.2
+            float[] coinChangePrice = new float[6];         // 얼마나 변할 건지 퍼센트 값 ex) 7.2 %
 
-            Random[] coinPriceRandom = new Random[6];                 // 코인의 가격이 랜덤으로 상승하는 Random 생성
+            Random[] coinPriceRandom = new Random[6];       // 코인의 가격이 랜덤으로 상승하는 Random 생성
             for (int i = 0; i < coinPriceRandom.Length; i++)
             {
                 coinPriceRandom[i] = new Random();
             }
 
-
-            int coinLenth = 6;                                    //코인 종목 횟수
-            for (int i = 0; i < coinLenth; i++)
+            for (int i = 0; i < coins.Length; i++)
             {
                 Random coinPercent = new Random();
-                coinChangePercent = coinPercent.Next(0, 100);
+                coinChangePercent = coinPercent.Next(0, 101);
 
                 coinChangePrice[0] = coinPriceRandom[0].Next(0, 50);
-                coinChangePrice[1] = coinPriceRandom[1].Next(51, 100);
-                coinChangePrice[2] = coinPriceRandom[2].Next(101, 200);
-                coinChangePrice[3] = coinPriceRandom[3].Next(201, 300);
-                coinChangePrice[4] = coinPriceRandom[4].Next(301, 400);
-                coinChangePrice[5] = coinPriceRandom[5].Next(401, 999);
+                coinChangePrice[1] = coinPriceRandom[1].Next(55, 100);
+                coinChangePrice[2] = coinPriceRandom[2].Next(100, 200);
+                coinChangePrice[3] = coinPriceRandom[3].Next(200, 300);
+                coinChangePrice[4] = coinPriceRandom[4].Next(300, 400);
+                coinChangePrice[5] = coinPriceRandom[5].Next(400, 999);
 
                 coinPercentResult[i] = coins[i].CoinPrice;
 
@@ -81,18 +77,18 @@ namespace Day12_Project_GameDevleop
                     //상장 폐지 만들까?
                 }
             }
-            coins[0].ChangePrice = coinPercentResult[0];
-            coins[1].ChangePrice = coinPercentResult[1];
-            coins[2].ChangePrice = coinPercentResult[2];
-            coins[3].ChangePrice = coinPercentResult[3];
-            coins[4].ChangePrice = coinPercentResult[4];
-            coins[5].ChangePrice = coinPercentResult[5];
+
+            for (int i = 0; i < coins.Length; i++)
+            {
+                coins[i].ChangePrice = coinPercentResult[i];
+            }
+
             return coins;
         }
         #endregion
 
         #region (함수) 55:45 확률 만들기
-        static bool MinusOrPlus(Random randomD)
+        public bool MinusOrPlus(Random randomD)
         {
             bool input = true;
 
@@ -111,15 +107,15 @@ namespace Day12_Project_GameDevleop
         #endregion
 
         #region (함수) 양전 혹은 음전 시스템
-        static void UpAndDown(bool inpuq)
+        public void UpAndDown(bool isCorrect)
         {
-            if (inpuq == true)
+            if (isCorrect == true)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.Write("▲  )");
                 Console.ForegroundColor = ConsoleColor.White;
             }
-            else if (inpuq == false)
+            else if (isCorrect == false)
             {
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.Write("▼  )");
@@ -127,7 +123,6 @@ namespace Day12_Project_GameDevleop
             }
         }
         #endregion
-        */
 
     }
 }

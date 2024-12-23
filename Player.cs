@@ -24,7 +24,7 @@ namespace Day12_Project_GameDevleop
             set => _playerCoinAllMoney = value;
         }
 
-        //플레리어 생성자
+        //플레이어 생성자
         public Player()
         {
             _playerMoney = 10000f;
