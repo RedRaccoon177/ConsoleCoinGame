@@ -46,7 +46,10 @@ namespace Day12_Project_GameDevleop
         public Stack<float> BeforeCoinPrice
         {
             get { return _beforeCoinPrice; }
-            set { _beforeCoinPrice.Push(_coinPrice); }
+            set 
+            {
+                _beforeCoinPrice.Push(_coinPrice); 
+            }
         }
         public float TrunChangPrice
         {
@@ -61,7 +64,7 @@ namespace Day12_Project_GameDevleop
         public float PlayerCoinMoney
         {
             get { return _playerCoinMoney; }
-            set { _playerCoinMoney = CoinPrice * (float)CoinCount; }
+            set { _playerCoinMoney = value; }
         }
 
         //코인의 생성자

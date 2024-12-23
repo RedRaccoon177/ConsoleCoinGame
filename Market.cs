@@ -10,7 +10,7 @@ namespace Day12_Project_GameDevleop
     class Market
     {
         #region (함수) 입력된 코인의 값을 변동
-        public Coin[] PlusChangeCoin(ref Coin[] coins)       // 입력된 코인의 값을 바꿔줌
+        public Coin[] ChangeCoinPrice(ref Coin[] coins)
         {
             int coinChangePercent;                          // 코인 퍼센트의 확률 0 ~ 100%
             float[] coinPercentResult = new float[coins.Count()];       // 코인의 퍼센트 값 ex) $ 7.2
@@ -87,18 +87,18 @@ namespace Day12_Project_GameDevleop
         }
         #endregion
 
-        #region (함수) 55:45 확률 만들기
+        #region (함수) 양 혹은 음 확률 만들기(7:3)
         public bool MinusOrPlus(Random randomD)
         {
             bool input = true;
 
             int temp0 = randomD.Next(0, 100);
 
-            if (temp0 < 55)
+            if (30 < temp0)
             {
                 input = true;
             }
-            else if (temp0 >= 45)
+            else if (temp0 <= 30)
             {
                 input = false;
             }

@@ -76,14 +76,14 @@ namespace Day12_Project_GameDevleop
             //Console.WriteLine("4. 뉴스 보기");
         }
 
-        // 게임 시작 시 예수금 출력 값
+        //게임 시작 시 예수금 출력 값
         public void PlayerMoney(float myMoney, float myCoinMoney)
         {
             Console.WriteLine($"나의 예수금 : {myMoney}");
             Console.WriteLine($"나의 코인 총액 : {myCoinMoney}");
         }
 
-        // 게임 시작 시 차트 출력 처음 값
+        //게임 시작 시 차트 출력 처음 값
         public void GameStartChart(Player player, LinkedList<Coin> coinList)
         {
             foreach (var coin in coinList)
@@ -97,6 +97,31 @@ namespace Day12_Project_GameDevleop
             Console.WriteLine();
             Console.WriteLine($"0일이 지났습니다...");
             Console.WriteLine($"0 / 3");
+        }
+
+
+        //게임 진행 중 계속 출력 되는 변동값
+        public void InGameViewAllTime(int theTime, int second, int dayby, Market market, LinkedList<Coin> coinList, Player player)
+        {
+            Console.SetCursorPosition(0, 0);
+            foreach (var coin in coinList)
+            {
+                market.UpAndDown(coin._isCorrect);
+                Console.Write($"현재 {coin.Name}의 가격은: {coin.CoinPrice} ");
+                Console.WriteLine($"        ) {coin.CoinCount} 개 보유 중");
+            }
+
+            theTime = +second;
+            Console.WriteLine();
+            Console.WriteLine($"{theTime / 3}일이 지났습니다...");
+            Console.WriteLine($"{dayby} / 3");
+            Console.WriteLine($"나의 예수금 : {player.PlayerMoney}");
+            Console.WriteLine($"나의 코인 총액 : {player.PlayerCoinAllMoney}");
+
+            Console.WriteLine("1번. 코인 매수");
+            Console.WriteLine("2번. 코인 매도");
+            Console.WriteLine("3번. 코인 뉴스");
+            Console.WriteLine("4번. 예수금 벌기");
         }
 
     }
