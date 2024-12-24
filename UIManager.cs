@@ -99,10 +99,10 @@ namespace Day12_Project_GameDevleop
             Console.WriteLine($"0 / 3");
         }
 
-
         //게임 진행 중 계속 출력 되는 변동값
         public void InGameViewAllTime(int theTime, int second, int dayby, Market market, LinkedList<Coin> coinList, Player player)
         {
+            ClearConsole1();
             Console.SetCursorPosition(0, 0);
             foreach (var coin in coinList)
             {
@@ -124,5 +124,52 @@ namespace Day12_Project_GameDevleop
             Console.WriteLine("4번. 예수금 벌기");
         }
 
+        //화면 지우기
+        public void ClearConsole1()
+        {
+            Console.SetCursorPosition(0, 0);
+            Console.WriteLine("                                                                                                           ");
+            Console.WriteLine("                                                                                                           ");
+            Console.WriteLine("                                                                                                           ");
+            Console.WriteLine("                                                                                                           ");
+            Console.WriteLine("                                                                                                           ");
+            Console.WriteLine("                                                                                                           ");
+            Console.WriteLine("                                                                                                           ");
+            Console.WriteLine("                                                                                                           ");
+            Console.WriteLine("                                                                                                           ");
+            Console.WriteLine("                                                                                                           ");
+            Console.WriteLine("                                                                                                           ");
+            Console.WriteLine("                                                                                                           ");
+            Console.WriteLine("                                                                                                           ");
+            Console.WriteLine("                                                                                                           ");
+            Console.WriteLine("                                                                                                           ");
+            Console.WriteLine("                                                                                                           ");
+            Console.WriteLine("                                                                                                           ");
+            Console.WriteLine("                                                                                                           ");
+            Console.WriteLine("                                                                                                           ");
+            Console.WriteLine("                                                                                                           ");
+            Console.WriteLine("                                                                                                           ");
+            Console.WriteLine("                                                                                                           ");
+            Console.WriteLine("                                                                                                           ");
+            Console.WriteLine("                                                                                                           ");
+            Console.WriteLine("                                                                                                           ");
+            Console.WriteLine("                                                                                                           ");
+            Console.WriteLine("                                                                                                           ");
+            Console.WriteLine("                                                                                                           ");
+            Console.WriteLine("                                                                                                           ");
+            Console.WriteLine("                                                                                                           ");
+            Console.WriteLine("                                                                                                           ");
+            Console.WriteLine("                                                                                                           ");
+            Console.WriteLine("                                                                                                           ");
+            Console.WriteLine("                                                                                                           ");
+            Console.WriteLine("                                                                                                           ");
+            Console.WriteLine("                                                                                                           ");
+            Console.WriteLine("                                                                                                           ");
+            Console.WriteLine("                                                                                                           ");
+            Console.WriteLine("                                                                                                           ");
+            Console.WriteLine("                                                                                                           ");
+            Console.WriteLine("                                                                                                           ");
+            Console.WriteLine("                                                                                                           ");
+        }
     }
 }

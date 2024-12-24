@@ -40,7 +40,6 @@ namespace Day12_Project_GameDevleop
             //GameManager클래스 선언
             GameManager gameManager = new GameManager();
 
-
             //코인 게임 타이틀
             //uIManager.Title();
             
@@ -66,6 +65,7 @@ namespace Day12_Project_GameDevleop
             uIManager.PlayerMoney(player.PlayerMoney, player.PlayerCoinAllMoney);
 
 
+
             #region 게임이 계속 진행 되도록 하는 while문!
             //시간 선언
             Stopwatch stopwatch = new Stopwatch();
@@ -79,7 +79,7 @@ namespace Day12_Project_GameDevleop
             int theTime = 0;
             int dayby = 1;
 
-
+            //게임 시작 반복문
             while (true)
             {
                 //stopwatch.ElapsedMilliseconds 실제 시간 흐르는 것 1000 = 1초
@@ -111,7 +111,7 @@ namespace Day12_Project_GameDevleop
                     }
 
                     //플레이어가 보유한 모든 코인 총액
-                    ChangePlayerCoinAllMoney(player, coinArray);
+                    player.ChangePlayerCoinAllMoney(player, coinArray);
 
                     //마지막 실행 시간을 현재 시간으로 갱신
                     lastExecutionTime1 = second;
@@ -129,24 +129,17 @@ namespace Day12_Project_GameDevleop
                         coinArray[i].TrunChangPrice = (coinArray[i].ChangePrice * 10) / 10;
 
                         // 상승 혹은 하락 장 확률 함수
-                        bool isCorrect = market.MinusOrPlus(randomD);                                 
+                        bool isCorrect = market.MinusOrPlus(randomD);
 
-                        //▼ 코인 상승시
-                        if (isCorrect == true)
-                        {
-                            coinArray[i].CoinPrice = (float)(coinArray[i].CoinPrice + coinArray[i].TrunChangPrice);
-                            
-                        }
-                        //▼ 코인 하락시
-                        else if (isCorrect == false)
-                        {
-                            coinArray[i].CoinPrice = (float)(coinArray[i].CoinPrice - coinArray[i].TrunChangPrice);      
-                        }
+                        //코인 상승 혹은 하락 시
+                        gameManager.CoinUPORDown(isCorrect, coinArray, i);
+
+                        //상승 혹은 하락을 모든 코인마다 지정
                         coinArray[i]._isCorrect = isCorrect;
                     }
 
                     //플레이어가 보유한 모든 코인 총액
-                    ChangePlayerCoinAllMoney(player, coinArray);
+                    player.ChangePlayerCoinAllMoney(player, coinArray);
 
                     //▼ 마지막 실행 시간을 현재 시간으로 갱신
                     lastExecutionTime0 = second;
@@ -156,14 +149,5 @@ namespace Day12_Project_GameDevleop
         }
 
 
-        public static void ChangePlayerCoinAllMoney(Player player, Coin[] coinArray)
-        {
-            player.PlayerCoinAllMoney = 0;
-            for (int i = 0; i < coinArray.Length; i++)
-            {
-                coinArray[i].PlayerCoinMoney = coinArray[i].CoinPrice * coinArray[i].CoinCount;
-                player.PlayerCoinAllMoney += coinArray[i].PlayerCoinMoney;
-            }
-        }
     }
 }

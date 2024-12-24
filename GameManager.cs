@@ -51,6 +51,7 @@ namespace Day12_Project_GameDevleop
             else if (1 <= howManyCoin && howManyCoin <= PriceDivideMyMoney1)
             {
                 Console.WriteLine($"{coin[needint].Name}매수 되었습니다.");
+
                 //코인 갯수 증가
                 coin[needint].CoinCount = coin[needint].CoinCount + howManyCoin;
 
@@ -222,6 +223,7 @@ namespace Day12_Project_GameDevleop
             else if (1 <= howManySellCoin && howManySellCoin <= coin[needint].CoinCount)
             {
                 Console.WriteLine($"{coin[needint].Name}이 {howManySellCoin}개 매도 되었습니다.");
+
                 //코인 갯수 감소
                 coin[needint].CoinCount = coin[needint].CoinCount - howManySellCoin;
 
@@ -232,7 +234,7 @@ namespace Day12_Project_GameDevleop
         }
         #endregion
 
-        //키 입력 받음.
+        //키 입력 받음 1~4번 선택해야함.
         public void GetKeyInput(LinkedList<Coin> coinList, Coin[] coinArray, Player player,GameManager gameManager)
         {
             bool playerKeydown0 = false;
@@ -296,5 +298,24 @@ namespace Day12_Project_GameDevleop
             }
         }
 
+        //코인 상승 혹은 하락 시
+        public void CoinUPORDown(bool isCorrect, Coin[] coinArray, int i)
+        {
+            //코인 상승 시
+            if (isCorrect == true)
+            {
+                coinArray[i].CoinPrice = (float)(coinArray[i].CoinPrice + coinArray[i].TrunChangPrice);
+
+            }
+
+            //코인 하락시
+            else if (isCorrect == false)
+            {
+                coinArray[i].CoinPrice = (float)(coinArray[i].CoinPrice - coinArray[i].TrunChangPrice);
+            }
+        }
+    
+        
+    
     }
 }
