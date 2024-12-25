@@ -10,54 +10,50 @@ namespace Day12_Project_GameDevleop
 {
     class GameManager : Coin
     {
+        Random random = new Random();
+
         #region (함수) 매수 시스템
-        public Coin[] Buy(Coin[] coin, int inputA, ref float divideMoney, ref float myMoneys, ref int howManyBuy)
+        public Coin[] Buy(Coin[] coin, ref Player player, int inputA, ref float divideMoney, ref float myMoneys,)
         {
+            //존재하는 코인을 구매 할려고 시도 할 경우
             while (coin.Length + 1 > inputA)
             {
-                Console.WriteLine($"{coin[inputA - 1].Name}은 최대 {divideMoney} 개 매수 가능합니다.");
-                if (divideMoney == 0)
-                {
-                    Console.WriteLine("0개는 매수가 불가능 합니다. (매수 불가능 기능 추가)");
-                }
-                else
-                {
-                    while (true)
-                    {
-                        bool coco = int.TryParse(Console.ReadLine(), out howManyBuy);
+                Console.WriteLine($"{coin[inputA - 1].Name}의 매수 가격을 입력하시오.");
+                bool asd0 = int.TryParse(Console.ReadLine(), out int howMuchBuy);
+                player.PlayerHowMuchBuy = howMuchBuy;
 
-                        BuyACoin(coin, ref howManyBuy, ref divideMoney, ref myMoneys, (inputA - 1));
+                Console.WriteLine($"{coin[inputA - 1].Name}의 매수 수량을 입력하시오.");
+                bool asd1 = int.TryParse(Console.ReadLine(), out int howManyBuy);
+                player.PlayerHowManyBuy = howManyBuy;
 
-                        break;
-                    }
-                }
-                break;
+                //코인 매수 할 수 있게.
+
+
             }
             return coin;
         }
         #endregion
 
         #region (함수) 매수 코인 선택 시 매수 체결 시스템
-        public Coin[] BuyACoin(Coin[] coin, ref int howManyCoin, ref float PriceDivideMyMoney1, ref float myMoneys, int needint)
+        public Coin[] BuyACoin
+        (Coin[] coin, ref Player player, ref int howManyCoin, ref float PriceDivideMyMoney1, ref float myMoneys, int needint)
         {
-            if (howManyCoin == 0)                          //매수 가능 갯수를 0이 아니라고 했을 때
+            //걸어둔 (가격 * 수량)이 예수금 이하일 경우 AND 걸어둔 가격이 현재 시가보다 높을 경우
+            if (player.PlayerMoney > (player.PlayerHowMuchBuy * player.PlayerHowManyBuy) && coin[needint].CoinPrice < player.PlayerHowMuchBuy)
             {
-                Console.WriteLine("0 혹은 글자를 입력한 듯");
-            }
-            else if (howManyCoin > PriceDivideMyMoney1)     //매수 가능 갯수를 초과 했을 경우 
-            {
-                Console.WriteLine("매수 가능 갯수를 초과하셨습니다. 다시 입력하시오.");
-            }
-            else if (1 <= howManyCoin && howManyCoin <= PriceDivideMyMoney1)
-            {
-                Console.WriteLine($"{coin[needint].Name}매수 되었습니다.");
+                //-10~10%의 변동성 사이에서 체결
+                int asd = random.Next(-10,10);
+                player.PlayerHowMuchBuy = player.PlayerHowMuchBuy + (player.PlayerHowMuchBuy * asd * 0.01f);
+                Console.WriteLine($"{coin[needint].Name}이 ${player.PlayerHowMuchBuy}의 금액으로 체결되었습니다.");
 
-                //코인 갯수 증가
                 coin[needint].CoinCount = coin[needint].CoinCount + howManyCoin;
-
-                //예수금 감소
                 myMoneys = myMoneys - (coin[needint].CoinPrice * howManyCoin);
+
+                //매수걸어뒀던 코인 가격이랑 갯수 다시 초기화
+                player.PlayerHowMuchBuy = 0;
+                player.PlayerHowManyBuy = 0;
             }
+
             return coin;
         }
         #endregion
@@ -234,71 +230,37 @@ namespace Day12_Project_GameDevleop
         }
         #endregion
 
-        //키 입력 받음 1~4번 선택해야함.
-        public void GetKeyInput(LinkedList<Coin> coinList, Coin[] coinArray, Player player,GameManager gameManager)
+        #region(함수) 매수 매도할 코인 선택 시
+        public void GetKeyInputWhatCoinBuy(LinkedList<Coin> coinList, Coin[] coinArray, Player player, GameManager gameManager)
         {
-            bool playerKeydown0 = false;
+            int playerHowManyBuy = 0;           //얼마만큼 코인 매수할거냐?
+            float PriceDivideMyMoney = 0;       //몇개 매수 가능한지 정수
+
+
+            bool playerKeydown = int.TryParse(Console.ReadLine(), out int playerBuyCoin);
+            PriceDivideMyMoney = (player.PlayerMoney / coinArray[playerBuyCoin - 1].CoinPrice);
+            PriceDivideMyMoney = (int)PriceDivideMyMoney;
+
+            gameManager.Buy(coinArray, playerBuyCoin, ref PriceDivideMyMoney, ref player.PlayerMoney, ref playerHowManyBuy);
+        }
+
+
+        public void GetKeyInputWhatCoinSell(LinkedList<Coin> coinList, Coin[] coinArray, Player player, GameManager gameManager)
+        {
             bool playerKeydown1 = false;
-            int playerInput = 0;                //1~4번 중 무슨 선택할거냐?(매수, 매도, 뉴스, 돈벌기)
             int playerBuyBtn = 0;               //1~코인갯수 중 무슨 코인을 매수 할거야?
             int playerHowManyBuy = 0;           //얼마만큼 코인 매수할거냐?
             float PriceDivideMyMoney = 0;       //몇개 매수 가능한지 정수
 
-            playerKeydown0 = int.TryParse(Console.ReadLine(), out playerInput);
+            playerKeydown1 = int.TryParse(Console.ReadLine(), out playerBuyBtn);
+            PriceDivideMyMoney = (player.PlayerMoney / coinArray[playerBuyBtn - 1].CoinPrice);
+            PriceDivideMyMoney = (int)PriceDivideMyMoney;
 
-            //1~4번 중 하나를 선택할 경우
-            if (playerKeydown0 == true)
-            {
-                switch (playerInput)
-                {
-                    case 1:
-                        for (int i = 0; i < coinList.Count; i++)
-                        {
-                            Console.WriteLine($"{i + 1}번. {coinArray[i].Name}의 현재 시세는 {coinArray[i].CoinPrice}입니다. 매수 하시겠습니까?");
-                        }
-                        Console.WriteLine("무슨 코인을 매수 할 것인가?");
-                        playerKeydown1 = int.TryParse(Console.ReadLine(), out playerBuyBtn);
-
-                        PriceDivideMyMoney = (player.PlayerMoney / coinArray[playerBuyBtn - 1].CoinPrice);
-
-                        PriceDivideMyMoney = (int)PriceDivideMyMoney;
-
-                        gameManager.Buy(coinArray, playerBuyBtn, ref PriceDivideMyMoney, ref player.PlayerMoney, ref playerHowManyBuy);
-
-                        break;
-
-                    case 2:
-                        for (int i = 0; i < coinList.Count; i++)
-                        {
-                            Console.WriteLine($"{i + 1}. {coinArray[i].Name}의 현재 시세는 {coinArray[i].CoinPrice}입니다. 매도 하시겠습니까?");
-                        }
-
-                        Console.WriteLine("무슨 코인을 매도 할 것인가?");
-
-                        playerKeydown1 = int.TryParse(Console.ReadLine(), out playerBuyBtn);
-
-                        PriceDivideMyMoney = (player.PlayerMoney / coinArray[playerBuyBtn - 1].CoinPrice);
-
-                        PriceDivideMyMoney = (int)PriceDivideMyMoney;
-
-                        gameManager.Sell(coinArray, playerBuyBtn, ref PriceDivideMyMoney, ref player.PlayerMoney, ref playerHowManyBuy);
-
-                        break;
-
-                    #region(추후 진행) 뉴스, 돈벌기 시스템 아직
-                    case 3:
-                        Console.WriteLine("3번 뉴스 창으로 이동");
-                        break;
-
-                    case 4:
-                        Console.WriteLine("4번 예수금 벌기 창으로 이동");
-                        break;
-                        #endregion
-                }
-            }
+            gameManager.Sell(coinArray, playerBuyBtn, ref PriceDivideMyMoney, ref player.PlayerMoney, ref playerHowManyBuy);
         }
+        #endregion
 
-        //코인 상승 혹은 하락 시
+        #region (함수) 코인 상승 혹은 하락 시
         public void CoinUPORDown(bool isCorrect, Coin[] coinArray, int i)
         {
             //코인 상승 시
@@ -314,7 +276,55 @@ namespace Day12_Project_GameDevleop
                 coinArray[i].CoinPrice = (float)(coinArray[i].CoinPrice - coinArray[i].TrunChangPrice);
             }
         }
-    
+        #endregion
+
+        //키 입력 받음 1~4번 선택해야함.
+        public void GetKeyInputOneToFour
+        (ref bool changeUI0, ref bool changeUI1, LinkedList<Coin> coinList, Coin[] coinArray, Player player,GameManager gameManager)
+        {
+            bool playerKeydown0 = false;
+            
+            //▼ 1~4번 중 무슨 선택할거냐?(매수, 매도, 뉴스, 돈벌기)
+            int playerInput = 0;
+
+            playerKeydown0 = int.TryParse(Console.ReadLine(), out playerInput);
+
+            //숫자일 경우 => 1~4번 중 하나를 선택할 경우
+            if (playerKeydown0 == true)
+            {
+                switch (playerInput)
+                {
+                    //매수 선택 시
+                    case 1:
+                        //여기서 캔들 차트표로 이동시켜야 함.
+                        changeUI0 = true;
+                        changeUI1 = false;
+                        break;
+
+                    //매도 선택 시
+                    case 2:
+                        //여기서 캔들 차트표로 이동시켜야 함.
+                        changeUI0 = true;
+                        changeUI1 = true;
+                        break;
+
+                    #region(추후 진행) 뉴스, 돈벌기 시스템 아직
+                    case 3:
+                        Console.WriteLine("3번 뉴스 창으로 이동");
+                        break;
+
+                    case 4:
+                        Console.WriteLine("4번 예수금 벌기 창으로 이동");
+                        break;
+                    default:
+                        Console.WriteLine("1~4번안의 선택지만 선택하시오.");
+                        break;
+                        #endregion
+                }
+            }
+        }
+
+        //코인 상승 혹은 하락 시
         
     
     }

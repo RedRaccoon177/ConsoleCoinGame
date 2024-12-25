@@ -88,8 +88,9 @@ namespace Day12_Project_GameDevleop
         {
             foreach (var coin in coinList)
             {
-                Console.Write($"현재 {coin.Name}의 가격은: {coin.CoinPrice}");
+                Console.WriteLine($"{coin.Name}의 가격은: {coin.CoinPrice}");
                 Console.WriteLine($"        ) {coin.CoinCount} 개 보유 중");
+                Console.WriteLine();
 
                 //일단 코인 금액 다 더한 모든 총액 만들어주기
                 player.PlayerCoinAllMoney = player.PlayerCoinAllMoney + player.PlayerCoinMoney;
@@ -100,47 +101,64 @@ namespace Day12_Project_GameDevleop
         }
 
         //게임 진행 중 계속 출력 되는 변동값
-        public void InGameViewAllTime(int theTime, int second, int dayby, Market market, LinkedList<Coin> coinList, Player player)
+        public void InGameViewAllTime
+        (bool changeUI0, bool changeUI1, int theTime, int dayby, Market market, LinkedList<Coin> coinList, Player player, Coin[] coinArray)
         {
             ClearConsole1();
             Console.SetCursorPosition(0, 0);
-            foreach (var coin in coinList)
-            {
-                market.UpAndDown(coin._isCorrect);
-                Console.Write($"현재 {coin.Name}의 가격은: {coin.CoinPrice} ");
-                Console.WriteLine($"        ) {coin.CoinCount} 개 보유 중");
-            }
+            int i = 1;
 
-            theTime = +second;
+            if (changeUI0 == false)
+            {
+                foreach (var coin in coinList)
+                {
+                    market.UpAndDown(coin._isCorrect);
+                    Console.Write($"{coin.Name}의 가격은: {coin.CoinPrice}");
+                    Console.WriteLine($"        ) {coin.CoinCount} 개 보유 중");
+                    Console.WriteLine();
+                }
+            }
+            else if (changeUI0 == true)
+            {
+                foreach (var coin in coinList)
+                {
+                    Console.Write($"{i}. ");
+                    market.UpAndDown(coin._isCorrect);
+                    Console.Write($"{coin.Name}의 가격은: {coin.CoinPrice}");
+                    Console.WriteLine($"        ) {coin.CoinCount} 개 보유 중");
+                    Console.WriteLine();
+                    i = i + 1;
+                }
+            }
             Console.WriteLine();
-            Console.WriteLine($"{theTime / 3}일이 지났습니다...");
+            Console.WriteLine($"{(theTime) / 4}일이 지났습니다...");
             Console.WriteLine($"{dayby} / 3");
             Console.WriteLine($"나의 예수금 : {player.PlayerMoney}");
             Console.WriteLine($"나의 코인 총액 : {player.PlayerCoinAllMoney}");
 
-            Console.WriteLine("1번. 코인 매수");
-            Console.WriteLine("2번. 코인 매도");
-            Console.WriteLine("3번. 코인 뉴스");
-            Console.WriteLine("4번. 예수금 벌기");
+            if (changeUI0 == false)
+            {
+                Console.WriteLine("1번. 코인 매수");
+                Console.WriteLine("2번. 코인 매도");
+                Console.WriteLine("3번. 코인 뉴스");
+                Console.WriteLine("4번. 예수금 벌기");
+            }
+            else if (changeUI0 == true && changeUI1 == false)
+            {
+                Console.WriteLine("매수하고자 코인의 번호를 입력하시오.");
+            }
+            else if (changeUI0 == true && changeUI1 == true)
+            {
+                Console.WriteLine("매도하고자 코인의 번호를 입력하시오.");
+            }
+
         }
+
 
         //화면 지우기
         public void ClearConsole1()
         {
             Console.SetCursorPosition(0, 0);
-            Console.WriteLine("                                                                                                           ");
-            Console.WriteLine("                                                                                                           ");
-            Console.WriteLine("                                                                                                           ");
-            Console.WriteLine("                                                                                                           ");
-            Console.WriteLine("                                                                                                           ");
-            Console.WriteLine("                                                                                                           ");
-            Console.WriteLine("                                                                                                           ");
-            Console.WriteLine("                                                                                                           ");
-            Console.WriteLine("                                                                                                           ");
-            Console.WriteLine("                                                                                                           ");
-            Console.WriteLine("                                                                                                           ");
-            Console.WriteLine("                                                                                                           ");
-            Console.WriteLine("                                                                                                           ");
             Console.WriteLine("                                                                                                           ");
             Console.WriteLine("                                                                                                           ");
             Console.WriteLine("                                                                                                           ");
