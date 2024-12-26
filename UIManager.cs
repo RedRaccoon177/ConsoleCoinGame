@@ -101,26 +101,38 @@ namespace Day12_Project_GameDevleop
         }
 
         //게임 미체결창
-        public void CoinNotConcludedList(LinkedList<BuyCoinNotConcluded> buyCoinNotConcludeds, BuyCoinNotConcluded[] notConcluded)
+        public void CoinNotConcludedList(Coin[] coin, LinkedList<BuyCoinNotConcluded> buyCoinNotConcludeds,
+            ref bool changeUI0, ref bool changeUI1,ref bool changeUI2)
         {
-            Console.WriteLine("이거 출력되고 있냐?");
+            //미체결 코인 클래스 배열화
+            BuyCoinNotConcluded[] notConcluded = buyCoinNotConcludeds.ToArray();
+
+            Console.WriteLine("Q를 눌러 차트표로 돌아가실 수 있습니다.");
+            Console.WriteLine();
             for (int i = 0; i < notConcluded.Length; i++)
             {
-                Console.WriteLine($"무슨 코인이냐? {notConcluded[i].WhatCoin}");
-                Console.WriteLine($"얼마에 살거냐? {notConcluded[i].HowMuchBuy}");
-                Console.WriteLine($"얼마나 살거냐? {notConcluded[i].HowManyBuy}");
+                Console.WriteLine($"무슨 코인이냐? {coin[notConcluded[i].WhatCoin].Name}");
+                Console.WriteLine($"얼마에 살거냐? ${notConcluded[i].HowMuchLock}");
+                Console.WriteLine($"얼마나 살거냐? {notConcluded[i].HowManyLock}개");
                 Console.WriteLine($"어디 좌표에 있냐? {notConcluded[i].MuchManyWhere}");
                 Console.WriteLine("--------------------------------------------");
             }
-            Console.WriteLine("이거 출 이이이");
-            bool isNum = int.TryParse(Console.ReadLine(), out int getNum0);
+
+            string isQ = Console.ReadLine();
+
+            if (isQ == "q" || isQ == "Q")
+            {
+                changeUI0 = false;
+                changeUI1 = false;
+                changeUI2 = false;
+            } 
         }
 
         //게임 진행 중 계속 출력 되는 변동값
         public void InGameViewAllTime
-        (bool changeUI0, bool changeUI1, bool changeUI2,
+        (ref bool changeUI0, ref bool changeUI1, ref bool changeUI2,
             int theTime, int dayby, Market market, LinkedList<Coin> coinList, Player player, Coin[] coinArray
-            , LinkedList<BuyCoinNotConcluded> buyCoinNotConcludeds, BuyCoinNotConcluded[] notConcluded)
+            , LinkedList<BuyCoinNotConcluded> buyCoinNotConcludeds)
         {
             ClearConsole1();
             Console.SetCursorPosition(0, 0);
@@ -175,7 +187,7 @@ namespace Day12_Project_GameDevleop
             }
             else if (changeUI0 == true && changeUI1 == false && changeUI2 == true)
             {
-                CoinNotConcludedList(buyCoinNotConcludeds, notConcluded);
+                CoinNotConcludedList(coinArray, buyCoinNotConcludeds, ref changeUI0, ref changeUI1, ref changeUI2);
             }
         }
 

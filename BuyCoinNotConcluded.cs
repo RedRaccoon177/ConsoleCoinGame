@@ -9,26 +9,28 @@ namespace Day12_Project_GameDevleop
     class BuyCoinNotConcluded
     {
         //플레이어가 걸어둔 코인 금액
-        private float _HowMuchBuy;
+        private float _howMuchLock;
         //플레이어가 걸어둔 코인 수량
-        private float _HowManyBuy;
+        private float _howManyLock;
         //걸어둔 코인의 위치 파악
         private int _muchManyWhere;
         //걸어둔 코인의 코인이 무엇인지
         private int _whatCoin;
+        //매수인지 매도인지
+        private bool _buyORSell;
 
 
         //플레이어가 걸어둔 코인 금액
-        public float HowMuchBuy
+        public float HowMuchLock
         {
-            get { return _HowMuchBuy; }
-            set { _HowMuchBuy = value; }
+            get { return _howMuchLock; }
+            set { _howMuchLock = value; }
         }
         //플레이어가 걸어둔 코인 수량
-        public float HowManyBuy
+        public float HowManyLock
         {
-            get { return _HowManyBuy; }
-            set { _HowManyBuy = value; }
+            get { return _howManyLock; }
+            set { _howManyLock = value; }
         }
         //걸어둔 코인의 위치 파악
         public int MuchManyWhere
@@ -42,13 +44,22 @@ namespace Day12_Project_GameDevleop
             get { return _whatCoin; }
             set { _whatCoin = value; }
         }
-
-        public BuyCoinNotConcluded( float howMuchBuy, float howManyBuy, int muchManyWhere, int whatCoin)
+        //매수인지 매도인지
+        public bool BuyORSell
         {
-            HowMuchBuy = howMuchBuy;
-            HowManyBuy = howManyBuy;
+            get { return _buyORSell; }
+            set { _buyORSell = value; }
+        }
+
+        //BuyCoinNotConcluded의 생성자
+        public BuyCoinNotConcluded
+            ( float howMuchLock, float howManyLock, int muchManyWhere, int whatCoin, bool buyORSell)
+        {
+            HowMuchLock = howMuchLock;
+            HowManyLock = howManyLock;
             MuchManyWhere = muchManyWhere;
             WhatCoin = whatCoin;
+            BuyORSell = buyORSell;
         }
     }
 }

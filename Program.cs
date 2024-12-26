@@ -45,8 +45,6 @@ namespace Day12_Project_GameDevleop
 
             //미체결 코인 클래스 선언
             LinkedList<BuyCoinNotConcluded> buyCoinNotConcludeds = new LinkedList<BuyCoinNotConcluded>();
-            //미체결 코인 클래스 배열화
-            BuyCoinNotConcluded[] notConcluded = buyCoinNotConcludeds.ToArray();
 
             //코인 게임 타이틀
             //uIManager.Title();
@@ -72,7 +70,6 @@ namespace Day12_Project_GameDevleop
             // 게임 시작 시 예수금 출력 값
             //uIManager.PlayerMoney(player.PlayerMoney, player.PlayerCoinAllMoney);
 
-
             #region 게임이 계속 진행 되도록 하는 while문!
             //시간 선언
             Stopwatch stopwatch = new Stopwatch();
@@ -92,7 +89,8 @@ namespace Day12_Project_GameDevleop
             bool changeUI1 = false;
             bool changeUI2 = false;
 
-            int playerBuyCoin = 0;
+            //코인의 위치 파악을 위한 것
+            int whereIsTheCoin = 0;
 
             //게임 시작 반복문
             while (true)
@@ -105,7 +103,7 @@ namespace Day12_Project_GameDevleop
                 if (second1 - lastExecutionTime2 >= 1)
                 {
                     //실시간 차트, 예수금, 코인총액, 날짜 변경 출력창
-                    uIManager.InGameViewAllTime(changeUI0, changeUI1, changeUI2, theTime, dayby, market, coinList, player, coin, buyCoinNotConcludeds, notConcluded);
+                    uIManager.InGameViewAllTime(ref changeUI0, ref changeUI1, ref changeUI2, theTime, dayby, market, coinList, player, coin, buyCoinNotConcludeds);
 
                     // 키입력을 받을 시 {1~4번 선택 할 시 !!!! (매수 매도 등등)}
                     if (Console.KeyAvailable)
@@ -124,21 +122,15 @@ namespace Day12_Project_GameDevleop
                         {
                             if (changeUI1 == false && changeUI2 == true)
                             {
-                                gameManager.GetKeyInputWhatCoinBuy
-                                    (coinList, coin, player, gameManager, ref playerBuyCoin, buyCoinNotConcludeds, 
-                                    ref changeUI0, ref changeUI1, ref changeUI2);
+                                gameManager.Buy
+                                    (ref coin, ref player, ref changeUI0, ref changeUI1, ref changeUI2, buyCoinNotConcludeds, ref whereIsTheCoin);
                             }
                             else if (changeUI1 == true && changeUI2 == true)
                             {
-                                gameManager.GetKeyInputWhatCoinSell(coinList, coin, player, gameManager);
+                                gameManager.Sell
+                                    (ref coin, ref player, ref changeUI0, ref changeUI1, ref changeUI2, buyCoinNotConcludeds, ref whereIsTheCoin);
                             }
                         }
-                        //미체결
-                        //else if (changeUI2 == true)
-                        //{
-                        //    gameManager.CoinNotConcludedList(buyCoinNotConcludeds, notConcluded);
-                        //}
-
                         //시간 다시 작동
                         stopwatch.Start();
                     }
@@ -147,11 +139,7 @@ namespace Day12_Project_GameDevleop
                     player.ChangePlayerCoinAllMoney(player, coin);
 
                     //걸어뒀던 코인 체결
-                    gameManager.BuyACoin(ref coin, ref player, buyCoinNotConcludeds, notConcluded);
-
-                    //만약 걸어뒀던 코인이 체결 된다면
-
-
+                    gameManager.BuyORSellACoin(ref coin, ref player, buyCoinNotConcludeds);
 
                     //마지막 실행 시간을 현재 시간으로 갱신
                     lastExecutionTime2 = second1;
