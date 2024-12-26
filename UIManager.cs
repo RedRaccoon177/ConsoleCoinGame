@@ -100,15 +100,33 @@ namespace Day12_Project_GameDevleop
             Console.WriteLine($"0 / 3");
         }
 
+        //게임 미체결창
+        public void CoinNotConcludedList(LinkedList<BuyCoinNotConcluded> buyCoinNotConcludeds, BuyCoinNotConcluded[] notConcluded)
+        {
+            Console.WriteLine("이거 출력되고 있냐?");
+            for (int i = 0; i < notConcluded.Length; i++)
+            {
+                Console.WriteLine($"무슨 코인이냐? {notConcluded[i].WhatCoin}");
+                Console.WriteLine($"얼마에 살거냐? {notConcluded[i].HowMuchBuy}");
+                Console.WriteLine($"얼마나 살거냐? {notConcluded[i].HowManyBuy}");
+                Console.WriteLine($"어디 좌표에 있냐? {notConcluded[i].MuchManyWhere}");
+                Console.WriteLine("--------------------------------------------");
+            }
+            Console.WriteLine("이거 출 이이이");
+            bool isNum = int.TryParse(Console.ReadLine(), out int getNum0);
+        }
+
         //게임 진행 중 계속 출력 되는 변동값
         public void InGameViewAllTime
-        (bool changeUI0, bool changeUI1, int theTime, int dayby, Market market, LinkedList<Coin> coinList, Player player, Coin[] coinArray)
+        (bool changeUI0, bool changeUI1, bool changeUI2,
+            int theTime, int dayby, Market market, LinkedList<Coin> coinList, Player player, Coin[] coinArray
+            , LinkedList<BuyCoinNotConcluded> buyCoinNotConcludeds, BuyCoinNotConcluded[] notConcluded)
         {
             ClearConsole1();
             Console.SetCursorPosition(0, 0);
             int i = 1;
 
-            if (changeUI0 == false)
+            if (changeUI0 == false && changeUI1 == false && changeUI2 == false)
             {
                 foreach (var coin in coinList)
                 {
@@ -118,7 +136,7 @@ namespace Day12_Project_GameDevleop
                     Console.WriteLine();
                 }
             }
-            else if (changeUI0 == true)
+            else if (changeUI0 == false && changeUI2 == true)
             {
                 foreach (var coin in coinList)
                 {
@@ -130,28 +148,35 @@ namespace Day12_Project_GameDevleop
                     i = i + 1;
                 }
             }
-            Console.WriteLine();
-            Console.WriteLine($"{(theTime) / 4}일이 지났습니다...");
-            Console.WriteLine($"{dayby} / 3");
-            Console.WriteLine($"나의 예수금 : {player.PlayerMoney}");
-            Console.WriteLine($"나의 코인 총액 : {player.PlayerCoinAllMoney}");
-
+            
             if (changeUI0 == false)
+            {
+                Console.WriteLine();
+                Console.WriteLine($"{(theTime) / 4}일이 지났습니다...");
+                Console.WriteLine($"{dayby} / 3");
+                Console.WriteLine($"나의 예수금 : {player.PlayerMoney}");
+                Console.WriteLine($"나의 코인 총액 : {player.PlayerCoinAllMoney}");
+            }
+            
+            if (changeUI0 == false && changeUI1 == false && changeUI2 == false)
             {
                 Console.WriteLine("1번. 코인 매수");
                 Console.WriteLine("2번. 코인 매도");
                 Console.WriteLine("3번. 코인 뉴스");
                 Console.WriteLine("4번. 예수금 벌기");
             }
-            else if (changeUI0 == true && changeUI1 == false)
+            else if (changeUI0 == false && changeUI1 == false && changeUI2 == true)
             {
                 Console.WriteLine("매수하고자 코인의 번호를 입력하시오.");
             }
-            else if (changeUI0 == true && changeUI1 == true)
+            else if (changeUI0 == false && changeUI1 == true && changeUI2 == true)
             {
                 Console.WriteLine("매도하고자 코인의 번호를 입력하시오.");
             }
-
+            else if (changeUI0 == true && changeUI1 == false && changeUI2 == true)
+            {
+                CoinNotConcludedList(buyCoinNotConcludeds, notConcluded);
+            }
         }
 
 

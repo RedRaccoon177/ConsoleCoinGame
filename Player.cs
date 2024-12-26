@@ -13,14 +13,9 @@ namespace Day12_Project_GameDevleop
         //플레이어 코인 총액수
         private float _playerCoinAllMoney;
 
-        //플레이어가 걸어둔 코인 금액
-        private float _playerHowMuchBuy;
-        //플레이어가 걸어둔 코인 수량
-        private float _playerHowManyBuy;
 
         //플레이어 예수금
         public ref float PlayerMoney => ref _playerMoney;
-
         //플레이어 코인 총 액수
         public float PlayerCoinAllMoney
         {
@@ -28,19 +23,6 @@ namespace Day12_Project_GameDevleop
             set { _playerCoinAllMoney = value; }
         }
 
-        //플레이어가 걸어둔 코인 금액
-        public float PlayerHowMuchBuy
-        {
-            get { return _playerHowMuchBuy; }
-            set { _playerHowMuchBuy = value; }
-        }
-
-        //플레이어가 걸어둔 코인 수량
-        public float PlayerHowManyBuy
-        {
-            get { return _playerHowManyBuy; }
-            set { _playerHowManyBuy = value; }
-        }
 
         //플레이어 생성자
         public Player()

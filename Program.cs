@@ -40,12 +40,20 @@ namespace Day12_Project_GameDevleop
             //GameManager클래스 선언
             GameManager gameManager = new GameManager();
 
+            //GetInputNum 클래스 선언
+            GetInputNum getInputNum = new GetInputNum();
+
+            //미체결 코인 클래스 선언
+            LinkedList<BuyCoinNotConcluded> buyCoinNotConcludeds = new LinkedList<BuyCoinNotConcluded>();
+            //미체결 코인 클래스 배열화
+            BuyCoinNotConcluded[] notConcluded = buyCoinNotConcludeds.ToArray();
+
             //코인 게임 타이틀
             //uIManager.Title();
-            
+
             //코인 게임 시작 화면
             //uIManager.GameStart();
-            
+
             //차트 상승 혹은 하락장의 확률 선언
             Random randomD = new Random();
 
@@ -56,7 +64,7 @@ namespace Day12_Project_GameDevleop
             coinList.AddLast(new Coin("도지코인", 100));
             coinList.AddLast(new Coin("계엄코인", 100));
             
-            Coin[] coinArray = coinList.ToArray();
+            Coin[] coin = coinList.ToArray();
 
             //게임 시작 시 차트 출력 처음 값
             //uIManager.GameStartChart(player, coinList);
@@ -79,8 +87,12 @@ namespace Day12_Project_GameDevleop
             int theTime = 0;
             int dayby = 0;
 
+            //ui창에 관한 임시변수들
             bool changeUI0 = false;
             bool changeUI1 = false;
+            bool changeUI2 = false;
+
+            int playerBuyCoin = 0;
 
             //게임 시작 반복문
             while (true)
@@ -93,7 +105,7 @@ namespace Day12_Project_GameDevleop
                 if (second1 - lastExecutionTime2 >= 1)
                 {
                     //실시간 차트, 예수금, 코인총액, 날짜 변경 출력창
-                    uIManager.InGameViewAllTime(changeUI0, changeUI1, theTime, dayby, market, coinList, player, coinArray);
+                    uIManager.InGameViewAllTime(changeUI0, changeUI1, changeUI2, theTime, dayby, market, coinList, player, coin, buyCoinNotConcludeds, notConcluded);
 
                     // 키입력을 받을 시 {1~4번 선택 할 시 !!!! (매수 매도 등등)}
                     if (Console.KeyAvailable)
@@ -102,30 +114,44 @@ namespace Day12_Project_GameDevleop
                         stopwatch.Stop();
 
                         // 1~4번 1번.매수, 2번.매도, 3번.뉴스, 4번.돈벌기
-                        if (changeUI0 == false)
+                        if (changeUI0 == false && changeUI1 == false && changeUI2 == false)
                         {
-                            // 1~4번 1번.매수, 2번.매도, 3번.뉴스, 4번.돈벌기
-                            gameManager.GetKeyInputOneToFour(ref changeUI0, ref changeUI1, coinList, coinArray, player, gameManager);
+                            // 1~4번 1번.매수, 2번.매도, 3번.체결창, 4번.미체결창
+                            gameManager.GetKeyInputOneToFour(ref changeUI0, ref changeUI1, ref changeUI2, coinList, coin, player, gameManager);
                         }
                         //매수 혹은 매도할 코인 선택
-                        else if (changeUI0 == true)
+                        else if (changeUI0 == false)
                         {
-                            if (changeUI1 == false)
+                            if (changeUI1 == false && changeUI2 == true)
                             {
-                                gameManager.GetKeyInputWhatCoinBuy(coinList, coinArray, player, gameManager);
+                                gameManager.GetKeyInputWhatCoinBuy
+                                    (coinList, coin, player, gameManager, ref playerBuyCoin, buyCoinNotConcludeds, 
+                                    ref changeUI0, ref changeUI1, ref changeUI2);
                             }
-                            else if (changeUI1 == true)
+                            else if (changeUI1 == true && changeUI2 == true)
                             {
-                                gameManager.GetKeyInputWhatCoinSell(coinList, coinArray, player, gameManager);
+                                gameManager.GetKeyInputWhatCoinSell(coinList, coin, player, gameManager);
                             }
                         }
+                        //미체결
+                        //else if (changeUI2 == true)
+                        //{
+                        //    gameManager.CoinNotConcludedList(buyCoinNotConcludeds, notConcluded);
+                        //}
 
                         //시간 다시 작동
                         stopwatch.Start();
                     }
 
                     //플레이어가 보유한 모든 코인 총액
-                    player.ChangePlayerCoinAllMoney(player, coinArray);
+                    player.ChangePlayerCoinAllMoney(player, coin);
+
+                    //걸어뒀던 코인 체결
+                    gameManager.BuyACoin(ref coin, ref player, buyCoinNotConcludeds, notConcluded);
+
+                    //만약 걸어뒀던 코인이 체결 된다면
+
+
 
                     //마지막 실행 시간을 현재 시간으로 갱신
                     lastExecutionTime2 = second1;
@@ -143,6 +169,7 @@ namespace Day12_Project_GameDevleop
                     }
                     //마지막 실행 시간을 현재 시간으로 갱신
                     lastExecutionTime1 = second;
+
                 }
 
                 // 3초가 흐를 때 마다 (차트의 시세 변경 값)
@@ -150,24 +177,24 @@ namespace Day12_Project_GameDevleop
                 {
                     for (int i = 0; i < coinList.Count; i++)
                     {
-                        coinArray[i].ChangePrice = 100;
-                        market.ChangeCoinPrice(ref coinArray);
+                        coin[i].ChangePrice = 100;
+                        market.ChangeCoinPrice(ref coin);
                         
                         // 소수점 둘째 자리까지만 남기는 작업
-                        coinArray[i].TrunChangPrice = (coinArray[i].ChangePrice * 10) / 10;
+                        coin[i].TrunChangPrice = (coin[i].ChangePrice * 10) / 10;
 
                         // 상승 혹은 하락 장 확률 함수
                         bool isCorrect = market.MinusOrPlus(randomD);
 
                         //코인 상승 혹은 하락 시
-                        gameManager.CoinUPORDown(isCorrect, coinArray, i);
+                        gameManager.CoinUPORDown(isCorrect, coin, i);
 
                         //상승 혹은 하락을 모든 코인마다 지정
-                        coinArray[i]._isCorrect = isCorrect;
+                        coin[i]._isCorrect = isCorrect;
                     }
 
                     //플레이어가 보유한 모든 코인 총액
-                    player.ChangePlayerCoinAllMoney(player, coinArray);
+                    player.ChangePlayerCoinAllMoney(player, coin);
 
                     //▼ 마지막 실행 시간을 현재 시간으로 갱신
                     lastExecutionTime0 = second;
