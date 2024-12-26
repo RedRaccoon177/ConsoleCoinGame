@@ -16,16 +16,13 @@ namespace Day12_Project_GameDevleop
 
         //플레이어 예수금
         public ref float PlayerMoney => ref _playerMoney;
-
         //플레이어 코인 총 액수
         public float PlayerCoinAllMoney
         {
-            get {return _playerCoinAllMoney; }
-            set 
-            {
-                _playerCoinAllMoney = value;
-            }
+            get { return _playerCoinAllMoney; }
+            set { _playerCoinAllMoney = value; }
         }
+
 
         //플레이어 생성자
         public Player()
