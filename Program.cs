@@ -103,7 +103,8 @@ namespace Day12_Project_GameDevleop
                 if (second1 - lastExecutionTime2 >= 1)
                 {
                     //실시간 차트, 예수금, 코인총액, 날짜 변경 출력창
-                    uIManager.InGameViewAllTime(ref changeUI0, ref changeUI1, ref changeUI2, theTime, dayby, market, coinList, player, coin, buyCoinNotConcludeds);
+                    uIManager.InGameViewAllTime
+                        (ref changeUI0, ref changeUI1, ref changeUI2, theTime, dayby, market, coinList, player, coin, buyCoinNotConcludeds, stopwatch, gameManager);
 
                     // 키입력을 받을 시 {1~4번 선택 할 시 !!!! (매수 매도 등등)}
                     if (Console.KeyAvailable)
@@ -114,21 +115,23 @@ namespace Day12_Project_GameDevleop
                         // 1~4번 1번.매수, 2번.매도, 3번.뉴스, 4번.돈벌기
                         if (changeUI0 == false && changeUI1 == false && changeUI2 == false)
                         {
-                            // 1~4번 1번.매수, 2번.매도, 3번.체결창, 4번.미체결창
-                            gameManager.GetKeyInputOneToFour(ref changeUI0, ref changeUI1, ref changeUI2, coinList, coin, player, gameManager);
+                            // 1~4번 1번.매수, 2번.매도, 3번.미체결창, 4번.체결창
+                            gameManager.GetKeyInputOneToFour(ref changeUI0, ref changeUI1, ref changeUI2);
                         }
-                        //매수 혹은 매도할 코인 선택
+                        //매수 혹은 매도 걸어두기
                         else if (changeUI0 == false)
                         {
+                            //매수
                             if (changeUI1 == false && changeUI2 == true)
                             {
                                 gameManager.Buy
-                                    (ref coin, ref player, ref changeUI0, ref changeUI1, ref changeUI2, buyCoinNotConcludeds, ref whereIsTheCoin);
+                                    (ref coin, ref changeUI0, ref changeUI1, ref changeUI2, buyCoinNotConcludeds, ref whereIsTheCoin);
                             }
+                            //매도
                             else if (changeUI1 == true && changeUI2 == true)
                             {
                                 gameManager.Sell
-                                    (ref coin, ref player, ref changeUI0, ref changeUI1, ref changeUI2, buyCoinNotConcludeds, ref whereIsTheCoin);
+                                    (ref coin, ref changeUI0, ref changeUI1, ref changeUI2, buyCoinNotConcludeds, ref whereIsTheCoin);
                             }
                         }
                         //시간 다시 작동

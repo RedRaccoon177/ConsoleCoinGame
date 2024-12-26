@@ -21,8 +21,6 @@ namespace Day12_Project_GameDevleop
         
         public bool _isCorrect;
 
-
-
         public string Name
         {
             get {return _name;}
@@ -79,7 +77,6 @@ namespace Day12_Project_GameDevleop
             BeforePrice = 0;       //전의 코인 가격
         }
 
-
         //코인의 생성자
         public Coin(string name, float coinPrice)
         {
@@ -99,8 +96,6 @@ namespace Day12_Project_GameDevleop
         //    _beforeCoinPrice = new Stack<float>();
         //    _beforeCoinPrice.Push(_coinPrice);
         //}
-
-
 
     }
 }

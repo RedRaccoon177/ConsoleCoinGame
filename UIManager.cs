@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -101,38 +102,56 @@ namespace Day12_Project_GameDevleop
         }
 
         //게임 미체결창
-        public void CoinNotConcludedList(Coin[] coin, LinkedList<BuyCoinNotConcluded> buyCoinNotConcludeds,
+        public void CoinNotConcludedList
+            (Coin[] coin, LinkedList<BuyCoinNotConcluded> buyCoinNotConcludeds, Stopwatch stopwatch, GameManager gameManager,
             ref bool changeUI0, ref bool changeUI1,ref bool changeUI2)
         {
             //미체결 코인 클래스 배열화
             BuyCoinNotConcluded[] notConcluded = buyCoinNotConcludeds.ToArray();
 
-            Console.WriteLine("Q를 눌러 차트표로 돌아가실 수 있습니다.");
-            Console.WriteLine();
             for (int i = 0; i < notConcluded.Length; i++)
             {
                 Console.WriteLine($"무슨 코인이냐? {coin[notConcluded[i].WhatCoin].Name}");
                 Console.WriteLine($"얼마에 살거냐? ${notConcluded[i].HowMuchLock}");
                 Console.WriteLine($"얼마나 살거냐? {notConcluded[i].HowManyLock}개");
-                Console.WriteLine($"어디 좌표에 있냐? {notConcluded[i].MuchManyWhere}");
+                Console.WriteLine($"삭제 번호: {notConcluded[i].MuchManyWhere}");
                 Console.WriteLine("--------------------------------------------");
             }
 
-            string isQ = Console.ReadLine();
+            Console.WriteLine("Q를 눌러 차트표로 돌아가실 수 있습니다.");
+            Console.WriteLine("삭제하시고 싶은 미체결 상품의 번호를 입력하시면 삭제가 가능합니다.");
 
+            //시간 정지
+            stopwatch.Stop();
+
+            //Q를 입력 시 게임 종료, 숫자를 입력하면 지정된 좌표의 미체결 상품이 삭제
+            var isQ = Console.ReadLine();
             if (isQ == "q" || isQ == "Q")
             {
                 changeUI0 = false;
                 changeUI1 = false;
                 changeUI2 = false;
-            } 
+                stopwatch.Start();
+            }
+
+            //삭제하고 싶은 숫자일 경우
+            bool asd = int.TryParse(isQ, out int temp);
+            if (asd == true)
+            {
+                gameManager.RemoveByName(buyCoinNotConcludeds, temp);
+                changeUI0 = false;
+                changeUI1 = false;
+                changeUI2 = false;
+                stopwatch.Start();
+            }
         }
+
 
         //게임 진행 중 계속 출력 되는 변동값
         public void InGameViewAllTime
         (ref bool changeUI0, ref bool changeUI1, ref bool changeUI2,
             int theTime, int dayby, Market market, LinkedList<Coin> coinList, Player player, Coin[] coinArray
-            , LinkedList<BuyCoinNotConcluded> buyCoinNotConcludeds)
+            , LinkedList<BuyCoinNotConcluded> buyCoinNotConcludeds, Stopwatch stopwatch, GameManager gameManager)
         {
             ClearConsole1();
             Console.SetCursorPosition(0, 0);
@@ -174,8 +193,8 @@ namespace Day12_Project_GameDevleop
             {
                 Console.WriteLine("1번. 코인 매수");
                 Console.WriteLine("2번. 코인 매도");
-                Console.WriteLine("3번. 코인 뉴스");
-                Console.WriteLine("4번. 예수금 벌기");
+                Console.WriteLine("3번. 미체결 확인하기");
+                Console.WriteLine("4번. 체결 확인하기");
             }
             else if (changeUI0 == false && changeUI1 == false && changeUI2 == true)
             {
@@ -187,7 +206,9 @@ namespace Day12_Project_GameDevleop
             }
             else if (changeUI0 == true && changeUI1 == false && changeUI2 == true)
             {
-                CoinNotConcludedList(coinArray, buyCoinNotConcludeds, ref changeUI0, ref changeUI1, ref changeUI2);
+                Console.WriteLine($"{(theTime) / 4}일이 지났습니다.");
+                Console.WriteLine();
+                CoinNotConcludedList(coinArray, buyCoinNotConcludeds, stopwatch, gameManager ,ref changeUI0, ref changeUI1, ref changeUI2);
             }
         }
 
