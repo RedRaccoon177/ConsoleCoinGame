@@ -24,8 +24,5 @@ namespace Day12_Project_GameDevleop
 
             getNum0 = getNum1;
         }
-
-        
-
     }
 }
