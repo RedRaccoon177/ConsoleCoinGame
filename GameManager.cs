@@ -177,7 +177,7 @@ namespace Day12_Project_GameDevleop
         }
         #endregion
 
-        #region 매수걸어뒀던 코인 리스트에서 삭제
+        #region 걸어뒀던 코인 리스트에서 삭제
         public void RemoveByName(LinkedList<BuyCoinNotConcluded> buyCoinNotConcludeds, int temp)
         {
             // 첫 번째 노드부터 시작
@@ -213,7 +213,7 @@ namespace Day12_Project_GameDevleop
         }
         #endregion
 
-        #region 미체결 코인 삭제
+        #region 미체결 코인 지정 삭제
         public void Delete(LinkedList<BuyCoinNotConcluded> buyCoinNotConcludeds)
         {
             bool asd = false;
@@ -281,8 +281,10 @@ namespace Day12_Project_GameDevleop
 
 
                         case 4:
-                            Console.WriteLine("체결 창으로 이동");
-                            Console.WriteLine("자동으로 몇일 지났을 경우 삭제 기능도 추가");
+                            changeUI0 = true;
+                            changeUI1 = true;
+                            changeUI2 = false;
+
                             break;
 
                         default:

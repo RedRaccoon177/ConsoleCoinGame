@@ -25,6 +25,7 @@ namespace Day12_Project_GameDevleop
             for (int i = 0; i < coins.Length; i++)
             {
                 Random coinPercent = new Random();
+
                 coinChangePercent = coinPercent.Next(0, 101);
 
                 coinChangePrice[0] = coinPriceRandom[0].Next(0, 50);
@@ -32,7 +33,9 @@ namespace Day12_Project_GameDevleop
                 coinChangePrice[2] = coinPriceRandom[2].Next(100, 200);
                 coinChangePrice[3] = coinPriceRandom[3].Next(200, 300);
                 coinChangePrice[4] = coinPriceRandom[4].Next(300, 400);
-                coinChangePrice[5] = coinPriceRandom[5].Next(400, 999);
+
+                //수정
+                coinChangePrice[5] = coinPriceRandom[5].Next(400, 500);
 
                 coinPercentResult[i] = coins[i].CoinPrice;
 
@@ -68,7 +71,7 @@ namespace Day12_Project_GameDevleop
                 }
                 else if (coinChangePercent == 100)
                 {
-                    coinChangePrice[5] = coinChangePrice[5] * 0.1f;            //변할 확률% ex) 40~99%
+                    coinChangePrice[5] = coinChangePrice[5] * 0.1f;            //변할 확률% ex) 40~50%
 
                     coinPercentResult[i] = coinPercentResult[i] * coinChangePrice[5] * 0.01f;
                 }

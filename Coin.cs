@@ -14,9 +14,7 @@ namespace Day12_Project_GameDevleop
         private int _coinCount;           //플레이어가 보유한 코인의 갯수
         private float _changePrice;       //변동만 되는 값
         private float _coinPrice;          //코인의 실제 값
-        private Stack<float> _beforeCoinPrice;  //코인 가격들 저장소
         private float _trunChangPrice;    //소수점 컷 수들
-        private float _beforePrice;       //전의 코인 가격
         private float _playerCoinMoney;    //플레이어가 보유한 코인 전체 가격
         
         public bool _isCorrect;
@@ -41,23 +39,10 @@ namespace Day12_Project_GameDevleop
             get { return _coinPrice; }
             set { _coinPrice = value; }
         }
-        public Stack<float> BeforeCoinPrice
-        {
-            get { return _beforeCoinPrice; }
-            set 
-            {
-                _beforeCoinPrice.Push(_coinPrice); 
-            }
-        }
         public float TrunChangPrice
         {
             get { return _trunChangPrice; }
             set { _trunChangPrice = value; } 
-        }
-        public float BeforePrice
-        {
-            get { return _beforePrice; }
-            set { _beforePrice = value; } 
         }
         public float PlayerCoinMoney
         {
@@ -72,9 +57,7 @@ namespace Day12_Project_GameDevleop
             CoinCount = 0;         //코인의 갯수
             ChangePrice = 0;       //변동되는 값
             CoinPrice = 0;            //변동되는 코인 가격
-            //BeforeCoinPrice = null;   //코인 가격들 저장소
             TrunChangPrice = 0;    //소수점 컷 수들
-            BeforePrice = 0;       //전의 코인 가격
         }
 
         //코인의 생성자
@@ -84,18 +67,7 @@ namespace Day12_Project_GameDevleop
             CoinCount = 0;  //코인의 갯수
             ChangePrice = 0;     //변동되는 값
             CoinPrice = coinPrice;  //변동되는 코인 가격
-            //BeforeCoinPrice = null; // 코인 가격들 저장소
             TrunChangPrice = 0;  //소수점 컷 수들
-            BeforePrice = 0;     //전의 코인 가격  
         }
-
-
-        //캔들차트표를 만들기 위함 스택 리스트 계열
-        //public void CandleAddCoin()
-        //{
-        //    _beforeCoinPrice = new Stack<float>();
-        //    _beforeCoinPrice.Push(_coinPrice);
-        //}
-
     }
 }

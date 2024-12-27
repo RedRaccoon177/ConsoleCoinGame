@@ -146,17 +146,16 @@ namespace Day12_Project_GameDevleop
             }
         }
 
-
+        int x = 0;
+        int y = 0;
         //게임 진행 중 계속 출력 되는 변동값
         public void InGameViewAllTime
-        (ref bool changeUI0, ref bool changeUI1, ref bool changeUI2,
-            int theTime, int dayby, Market market, LinkedList<Coin> coinList, Player player, Coin[] coinArray
-            , LinkedList<BuyCoinNotConcluded> buyCoinNotConcludeds, Stopwatch stopwatch, GameManager gameManager)
+        (ref bool changeUI0, ref bool changeUI1, ref bool changeUI2, int temp,
+            int theTime, int dayby, Market market, LinkedList<Coin> coinList, Player player, Coin[] coinArray, int _candleCount
+            , LinkedList<BuyCoinNotConcluded> buyCoinNotConcludeds, Stopwatch stopwatch, GameManager gameManager, LinkedList<CandleChart> candleChart)
         {
-            ClearConsole1();
-            Console.SetCursorPosition(0, 0);
-            int i = 1;
-
+            //ClearConsole0();
+            
             if (changeUI0 == false && changeUI1 == false && changeUI2 == false)
             {
                 foreach (var coin in coinList)
@@ -166,9 +165,11 @@ namespace Day12_Project_GameDevleop
                     Console.WriteLine($"        ) {coin.CoinCount} 개 보유 중");
                     Console.WriteLine();
                 }
+
             }
             else if (changeUI0 == false && changeUI2 == true)
             {
+                int i = 1;
                 foreach (var coin in coinList)
                 {
                     Console.Write($"{i}. ");
@@ -183,8 +184,8 @@ namespace Day12_Project_GameDevleop
             if (changeUI0 == false)
             {
                 Console.WriteLine();
-                Console.WriteLine($"{(theTime) / 4}일이 지났습니다...");
-                Console.WriteLine($"{dayby} / 3");
+                Console.WriteLine($"{(theTime) / 11}일이 지났습니다...");
+                Console.WriteLine($"{dayby} / 10");
                 Console.WriteLine($"나의 예수금 : {player.PlayerMoney}");
                 Console.WriteLine($"나의 코인 총액 : {player.PlayerCoinAllMoney}");
             }
@@ -210,11 +211,36 @@ namespace Day12_Project_GameDevleop
                 Console.WriteLine();
                 CoinNotConcludedList(coinArray, buyCoinNotConcludeds, stopwatch, gameManager ,ref changeUI0, ref changeUI1, ref changeUI2);
             }
+
+            //4번 확인용 캔들차트
+            if (changeUI0 == true && changeUI1 == true && changeUI2 == false)
+            {
+                
+                //캔들 차트 링크드 리스트에 들어가 있는지 확인하기
+                //확인 한 후에 
+                Console.SetCursorPosition(x, y);
+                Console.WriteLine(_candleCount);
+                
+                Console.WriteLine(temp);
+
+                Console.WriteLine("--------------------------------------");
+
+                x++;
+                y++;
+
+
+            }
+        }
+
+        //화면 오류 출력
+        public void ErrorUI()
+        {
+            Console.WriteLine("올바른 입력값이 아닙니다.");
         }
 
 
         //화면 지우기
-        public void ClearConsole1()
+        public void ClearConsole0()
         {
             Console.SetCursorPosition(0, 0);
             Console.WriteLine("                                                                                                           ");
