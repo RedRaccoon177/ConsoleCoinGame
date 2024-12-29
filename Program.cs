@@ -14,9 +14,12 @@ namespace Day12_Project_GameDevleop
 {
     internal class Program
     {
-
         static void Main(string[] args)
         {
+            //커서 안보이게 하기
+            Console.CursorVisible = false;
+            //특수 이모티콘 출력 가능하게 하는거
+            Console.OutputEncoding = Encoding.UTF8;
             //차트 상승 혹은 하락장의 확률 선언
             Random randomD = new Random();
             //UI클래스 선언
@@ -29,20 +32,20 @@ namespace Day12_Project_GameDevleop
             Market market = new Market();
             //GameManager클래스 선언
             GameManager gameManager = new GameManager();
-            //GetInputNum 클래스 선언
-            GetInputNum getInputNum = new GetInputNum();
             //미체결 코인 클래스 선언
             LinkedList<BuyCoinNotConcluded> buyCoinNotConcludeds = new LinkedList<BuyCoinNotConcluded>();
 
-            //캔들차트 클래스 링크드 리스트 선언
-            LinkedList<CandleChart> candleChart = new LinkedList<CandleChart>();
+            //캔들차트의 스틱 관리
+            LinkedList<float[]> candlestick = new LinkedList<float[]>();
 
+            #region
             //코인 게임 타이틀
-            //uIManager.Title();
+            uIManager.Title();
+            
             //코인 게임 시작 화면
-            //uIManager.GameStart();
+            uIManager.GameStart();
 
-            coinList.AddFirst(new Coin("비트코인",100));
+            coinList.AddFirst(new Coin("비트코인", 100));
             coinList.AddLast(new Coin("이더리움", 100));
             coinList.AddLast(new Coin("리플코인", 100));
             coinList.AddLast(new Coin("경일코인", 100));
@@ -50,22 +53,23 @@ namespace Day12_Project_GameDevleop
             coinList.AddLast(new Coin("계엄코인", 100));
 
             Coin[] coin = coinList.ToArray();
-            
 
             //게임 시작 시 차트 출력 처음 값
             //uIManager.GameStartChart(player, coinList);
 
             // 게임 시작 시 예수금 출력 값
             //uIManager.PlayerMoney(player.PlayerMoney, player.PlayerCoinAllMoney);
+            #endregion
 
-            #region 게임이 계속 진행 되도록 하는 while문!
+            #region 
+            //게임이 계속 진행 되도록 하는 while문!
             //시간 선언
             Stopwatch stopwatch = new Stopwatch();
             //시간 흐름 시작
             stopwatch.Start();
 
             // 마지막 실행 시간을 저장할 변수
-            int lastExecutionTime0 = 0;                   
+            int lastExecutionTime0 = 0;
             int lastExecutionTime1 = 0;
             int lastExecutionTime2 = 0;
 
@@ -73,25 +77,47 @@ namespace Day12_Project_GameDevleop
             int dayby = 0;
 
             //ui창에 관한 임시변수들
-            bool changeUI0 = true;
-            bool changeUI1 = true;
+            bool changeUI0 = false;
+            bool changeUI1 = false;
             bool changeUI2 = false;
+            bool changeUI3 = false;
+
 
             //코인의 위치 파악을 위한 것
             int whereIsTheCoin = 0;
+            #endregion
 
-            
-            
+
             //캔들 차트용 변수들
             //각 캔들의 코드이름
             int temp = 0;
             //캔들안에 들어갈 코인의 시세가들 갯수
             int _candleCount = 0;
-            bool isCreate =false;
+            bool isCreate = false;
+
+            //캔들차트 클래스 링크드 리스트 선언
+            List<LinkedList<CandleChart>> candleCharts = new List<LinkedList<CandleChart>>();
 
             //캔들 차트의 껍데기 창조
-            CandleChart cloneCandleChart = null;
+            List<CandleChart> eachCandles = new List<CandleChart>();
 
+            // 캔들 차트 저장소와 껍데기 초기화
+            for (int i = 0; i < coin.Length; i++)
+            {
+                candleCharts.Add(new LinkedList<CandleChart>());
+                eachCandles.Add(null);
+            }
+
+            //캔들 차트에 필요한 List들
+            List<List<float>> mostHL = null;
+            List<float> oneSpaces = null;
+            List<List<float>> CVolatilityValues = null;
+            List<List<float>> highValues = null;
+            List<List<float>> changeColor = null;
+            List<int[]> howSpaces = null;
+
+
+            int showCoin = 0; 
 
 
             //게임 시작 반복문
@@ -99,47 +125,17 @@ namespace Day12_Project_GameDevleop
             {
                 //stopwatch.ElapsedMilliseconds 실제 시간 흐르는 것 1000 = 1초
                 int second = (int)stopwatch.ElapsedMilliseconds / 1000;     //1초의 흐름 시간 선언
-                int second1 = (int)stopwatch.ElapsedMilliseconds /1000;     //0.5초의 흐름 시간 선언
-
+                int second1 = (int)stopwatch.ElapsedMilliseconds / 500;     //0.5초의 흐름 시간 선언
+                //수정↕
                 // 0.5초가 흐를 때 마다 (상호작용 + 차트 출력)
-                if (second1 - lastExecutionTime2 >= 2)
+                if (second1 - lastExecutionTime2 >= 1)
                 {
-                    #region 캔들차트용 : 4초마다 한번만 푸쉬를 함.
-                    ////캔들안에 3개의 코인 가격이 들어갈 것임.(0, 1, 2, 3)
-                    //if (_candleCount < 4)
-                    //{
-                    //    if (isCreate == true)
-                    //    {
-                    //        cloneCandleChart.BeforeCoinPrice.Add(coin[0].CoinPrice);
-                    //    }
-                    //    else if (isCreate == false)
-                    //    {
-                    //        //캔들 차트 한개 빈공간 창조
-                    //        cloneCandleChart = new CandleChart(temp); 
-                            
-                    //        //캔들 차트 안에 코인 가격 저장소에 한개 추가
-                    //        cloneCandleChart.BeforeCoinPrice.Add(coin[0].CoinPrice);
-
-                    //        //링크드리스트 캔들 차트에 캔들 차트 한개를 추가한다.
-                    //        candleChart.AddLast(cloneCandleChart);
-
-                    //        isCreate = true;
-                    //    }
-                    //    _candleCount++;
-                    //}
-
-                    ////링크드 리스트의 갯수가 10개가 넘어가면
-                    //if (10 <= temp)
-                    //{
-                    //    //가장 첫번째꺼를 삭제해라
-                    //    //candleChart.Remove();
-                    //}
-                    #endregion
-
                     //실시간 차트, 예수금, 코인총액, 날짜 변경 출력창
                     uIManager.InGameViewAllTime
-                        (ref changeUI0, ref changeUI1, ref changeUI2, temp,
-                        theTime, dayby, market, coinList, player, coin, _candleCount, buyCoinNotConcludeds, stopwatch, gameManager, candleChart);
+                        (ref changeUI0, ref changeUI1, ref changeUI2, ref changeUI3, temp,
+                        theTime, dayby, market, coinList, player, coin, _candleCount, buyCoinNotConcludeds, stopwatch, gameManager
+                        , ref showCoin, mostHL, oneSpaces, CVolatilityValues,
+                            highValues, howSpaces, changeColor);
 
                     // 키입력을 받을 시 {1~4번 선택 할 시 !!!! (매수 매도 등등)}
                     if (Console.KeyAvailable)
@@ -147,32 +143,38 @@ namespace Day12_Project_GameDevleop
                         //시간 잠시 멈춰
                         stopwatch.Stop();
 
-                        // 1~4번 1번.매수, 2번.매도, 3번.뉴스, 4번.돈벌기
-                        if (changeUI0 == false && changeUI1 == false && changeUI2 == false)
+                        // 1~4번 1번.매수, 2번.매도, 3번.미체결, 4번.캔들차트
+                        if (changeUI0 == false && changeUI1 == false && changeUI2 == false && changeUI3 == false)
                         {
-                            // 1~4번 1번.매수, 2번.매도, 3번.미체결창, 4번.체결창
-                            gameManager.GetKeyInputOneToFour(ref changeUI0, ref changeUI1, ref changeUI2);
+                            gameManager.GetKeyInputOneToFour(ref changeUI0, ref changeUI1, ref changeUI2, ref changeUI3);
                         }
-                        //매수 혹은 매도 걸어두기
-                        else if (changeUI0 == false)
+                        //매수 캔들 창
+                        else if (changeUI0 == false && changeUI1 == false && changeUI2 == false && changeUI3 == true)
                         {
-                            //매수
-                            if (changeUI1 == false && changeUI2 == true)
-                            {
-                                gameManager.Buy
-                                    (ref coin, ref changeUI0, ref changeUI1, ref changeUI2, buyCoinNotConcludeds, ref whereIsTheCoin);
-                            }
-                            //매도
-                            else if (changeUI1 == true && changeUI2 == true)
-                            {
-                                gameManager.Sell
-                                    (ref coin, ref changeUI0, ref changeUI1, ref changeUI2, buyCoinNotConcludeds, ref whereIsTheCoin);
-                            }
+                            gameManager.Buy
+                               (ref coin, ref changeUI0, ref changeUI1, ref changeUI2, ref changeUI3
+                               , buyCoinNotConcludeds, ref whereIsTheCoin);
                         }
+                        //매도 캔들 창
+                        else if (changeUI0 == false && changeUI1 == false && changeUI2 == true && changeUI3 == false)
+                        {
+                            gameManager.Sell
+                                (ref coin, ref changeUI0, ref changeUI1, ref changeUI2, buyCoinNotConcludeds, ref whereIsTheCoin);
+                        }
+                        //캔들차트표
+                        else if (changeUI0 == true && changeUI1 == true && changeUI2 == true && changeUI3 == true)
+                        {
+                            gameManager.SelectCoin(ref showCoin, coin, ref changeUI0, ref changeUI1, ref changeUI2, ref changeUI3);
+                        }
+                        else if (changeUI0 == true && changeUI1 == true && changeUI2 == true && changeUI3 == false)
+                        {
+                            gameManager.SelectCoin(ref showCoin, coin, ref changeUI0, ref changeUI1, ref changeUI2, ref changeUI3);
+                        }
+
+
                         //시간 다시 작동
                         stopwatch.Start();
                     }
-
                     //플레이어가 보유한 모든 코인 총액
                     player.ChangePlayerCoinAllMoney(player, coin);
 
@@ -188,7 +190,7 @@ namespace Day12_Project_GameDevleop
                 {
                     //10초 경과 시 1일 지남.
                     theTime = +second;
-                    
+
                     dayby++;
                     if (10 < dayby)
                     {
@@ -221,148 +223,150 @@ namespace Day12_Project_GameDevleop
                         coin[i]._isCorrect = isCorrect;
                     }
 
+                    #region 캔들차트용
 
-                    #region 캔들차트용 : 4초마다 한번만 푸쉬를 함.
                     //캔들안에 3개의 코인 가격이 들어갈 것임.(0, 1, 2)
                     if (_candleCount < 3)
                     {
                         //캔들 저장소에 한개 추가
                         if (isCreate == true)
                         {
-                            //(수정)
-                            cloneCandleChart.BeforeCoinPrice.Add(coin[0].CoinPrice);
+                            for (int i = 0; i < coin.Length; i++)
+                            {
+                                eachCandles[i].BeforeCoinPrice.Add(coin[i].CoinPrice);
+                            }
                         }
                         //캔들 스틱 한개를 창조 + 저장소에 한개 추가
                         else if (isCreate == false)
                         {
-                            //캔들 차트 한개 빈공간 창조
-                            cloneCandleChart = new CandleChart(temp);
+                            for (int i = 0; i < coin.Length; i++)
+                            {
+                                // 캔들 차트 한 개 빈공간 창조
+                                eachCandles[i] = new CandleChart(temp);
 
-                            //캔들 차트 안에 코인 가격 저장소에 한개 추가 (수정)
-                            cloneCandleChart.BeforeCoinPrice.Add(coin[0].CoinPrice);
+                                // 캔들 차트 안에 코인 가격 저장소에 한 개 추가
+                                eachCandles[i].BeforeCoinPrice.Add(coin[i].CoinPrice);
 
-                            //링크드리스트 캔들 차트에 캔들 차트 한개를 추가한다.
-                            candleChart.AddLast(cloneCandleChart);
-
+                                // 링크드리스트 캔들 차트에 캔들 차트 한 개를 추가
+                                candleCharts[i].AddLast(eachCandles[i]);
+                            }
                             isCreate = true;
                         }
-
                         _candleCount++;
                     }
 
                     //캔들안에 3개 초과로 들어갈 경우
                     if (3 <= _candleCount)
                     {
-                        //캔들차트안의 가장 높은 값, 낮은 값 찾기
-
-                        //모든 캔틀차트 안의 값을 가지고 있는 리스트
-                        List<float> mostHL = new List<float>();
-                        foreach (var candle in candleChart)
+                        // 모든 캔들 차트 안의 값을 담을 리스트
+                        mostHL = new List<List<float>>();
+                        for (int i = 0; i < coin.Length; i++)
                         {
-                            //캔들 하나안의 값 3개 다 확인용도
-                            for (int i = 0; i < candle.BeforeCoinPrice.Count; i++)
-                            {
-                                mostHL.Add(candle.BeforeCoinPrice[i]);
-                            }
+                            mostHL.Add(new List<float>());
                         }
-
-                        //모든 값들이 리스트에 잘 들어갔는지 확인용
-                        /*foreach (var a in mostHL)
+                        // 각 캔들 차트 안의 가장 높은 값, 낮은 값 찾기위해 모든 값 넣기
+                        for (int i = 0; i < coin.Length; i++)
                         {
-                            Console.WriteLine(a);
-                        }*/
-
-                        //모든 값들을 정렬
-                        mostHL.Sort();
-                        //정렬 된 값들 중 가장 높은값 가장 낮은 값의 차
-                        float allresult =mostHL[candleChart.Count * cloneCandleChart.BeforeCoinPrice.Count - 1] - mostHL[0];
-                        //1칸당 차지 하는 값
-                        float oneSpace = allresult / 20;
-
-                        //Console.WriteLine($"가장 낮은 값{mostHL[0]}");
-                        //Console.WriteLine($"가장 높은 값{mostHL[candleChart.Count * cloneCandleChart.BeforeCoinPrice.Count - 1]}");
-
-                        float[] input = new float[3];
-                        //캔들 하나안의 값 3개 다 확인용도
-                        for (int i = 0; i < cloneCandleChart.BeforeCoinPrice.Count; i++)
-                        {
-                            input[i] = cloneCandleChart.BeforeCoinPrice[i];
-                        }
-                        Array.Sort(input);
-                        float result = input[0] - input[2];
-                        //한 캔들스틱 안에 변동 성 값
-                        result = Math.Abs(result);
-
-                        //List<CandleChart> some = new List<CandleChart>();
-                        //foreach (var candle in candleChart)
-                        //{
-                        //    some.Add(candle);
-                        //}
-
-                        //Console.WriteLine(oneSpace);
-                        //Console.WriteLine(result);
-
-
-                        //한칸당 차지하는 캔들 스틱 출력 값
-                        for (int i = 0; i < 20; i++)
-                        {
-                            if (oneSpace * i <= result && result <= oneSpace * (i + 1))
+                            foreach (var candle in candleCharts[i])
                             {
-                                for (int j = 0; j <= i; j++)
+                                for (int j = 0; j < candle.BeforeCoinPrice.Count; j++)
                                 {
-                                    Console.WriteLine($"{i+1}");
+                                    mostHL[i].Add(candle.BeforeCoinPrice[j]);
                                 }
                             }
                         }
-
-                        //1일째는 한개만
-                        //2일째는 2줄
-                        //3일째는 3줄....
-
-                        //string[,]coordinate = new string[80,20];
-                        //coordinate[0, 9] = "ㅁ";
-
-
-
-
-                        #region 색깔 바꾸는 거임
-                        //가장 첫번째랑 마지막을 빼서 양수면 양봉
-                        if (0 < cloneCandleChart.BeforeCoinPrice[0] - cloneCandleChart.BeforeCoinPrice[cloneCandleChart.BeforeCoinPrice.Count-1])
+                        // 모든 값들을 정렬
+                        foreach (var hl in mostHL)
                         {
-                            //Console.WriteLine("빨강");
-                            //캔들 색을 빨강으로
+                            hl.Sort();
                         }
-                        //음수면 음봉
-                        else if (cloneCandleChart.BeforeCoinPrice[0] - cloneCandleChart.BeforeCoinPrice[cloneCandleChart.BeforeCoinPrice.Count-1] < 0)
-                        {
-                            //Console.WriteLine("파랑");
-                            //캔들 색을 파랑색으로
-                        }
-                        else 
-                        {
-                            //두개의 음이 0이면 말이 안되는데...
-                        }
-                        #endregion
 
+                        // 정렬된 값들 중 가장 높은 값과 가장 낮은 값의 차 계산
+                        List<float> CVerticals = new List<float>();
+                        for (int i = 0; i < coin.Length; i++)
+                        {
+                            if (mostHL[i].Count > 0)
+                            {
+                                float highest = mostHL[i][mostHL[i].Count - 1];
+                                float lowest = mostHL[i][0];
+                                CVerticals.Add(highest - lowest);
+                            }
+                            else
+                            {
+                                CVerticals.Add(0); // 데이터가 없으면 0으로 설정
+                            }
+                        }
 
+                        // 1칸당 차지하는 값(20등분)
+                        oneSpaces = new List<float>();
+                        foreach (var vertical in CVerticals)
+                        {
+                            oneSpaces.Add(Math.Max((vertical / 20), 0.001f));
+                        }
+
+                        // 모든 캔들의 세로 값, 가장 낮은 값, 가장 높은 값, 색변환을 위한 값 저장소
+                        CVolatilityValues = new List<List<float>>();
+                        List<List<float>> lowValues = new List<List<float>>();
+                        highValues = new List<List<float>>();
+                        changeColor = new List<List<float>>();
+                        for (int i = 0; i < coin.Length; i++)
+                        {
+                            CVolatilityValues.Add(new List<float>());
+                            lowValues.Add(new List<float>());
+                            highValues.Add(new List<float>());
+                            changeColor.Add(new List<float>());
+                        }
+
+                        // 각 캔들 차트의 세부 데이터를 계산
+                        for (int i = 0; i < coin.Length; i++)
+                        {
+                            foreach (var candle in candleCharts[i])
+                            {
+                                // 최저값, 최고값 계산 및 저장
+                                float low = candle.BeforeCoinPrice.Min();
+                                float high = candle.BeforeCoinPrice.Max();
+                                float changColor = candle.BeforeCoinPrice[0] - candle.BeforeCoinPrice[2];
+                                lowValues[i].Add(low);
+                                highValues[i].Add(high);
+                                changeColor[i].Add(changColor);
+
+                                // 세로 값 계산
+                                CVolatilityValues[i].Add((high - low) / oneSpaces[i]);
+                            }
+                        }
+
+                        // 각 캔들 차트에서 몇 칸을 차지하는지 계산
+                        List<LinkedList<int>> howMSpace = new List<LinkedList<int>>();
+                        for (int i = 0; i < coin.Length; i++)
+                        {
+                            howMSpace.Add(new LinkedList<int>());
+                        }
+                        for (int i = 0; i < coin.Length; i++)
+                        {
+                            for (int j = 0; j < CVolatilityValues[i].Count; j++)
+                            {
+                                int space = (int)Math.Ceiling(CVolatilityValues[i][j] / oneSpaces[i]);
+                                howMSpace[i].AddLast(space > 20 ? 20 : space);
+                            }
+                        }
+
+                        //몇 칸 차지하는지 배열로 전환 후 활용
+                        howSpaces = new List<int[]>();
+                        for (int i = 0; i < coin.Length; i++)
+                        {
+                            howSpaces.Add(howMSpace[i].ToArray());
+                        }
 
                         //각 캔들의 코드 넘버 올리기
                         temp++;
 
                         //캔들 초기화
                         _candleCount = 0;
-
                         isCreate = false;
                     }
 
-                    //링크드 리스트의 갯수가 10개가 넘어가면
-                    if (10 <= temp)
-                    {
-                        //가장 첫번째꺼를 삭제해라
-                        //candleChart.Remove();
-                    }
-                    #endregion
 
+                    #endregion
 
                     //플레이어가 보유한 모든 코인 총액
                     player.ChangePlayerCoinAllMoney(player, coin);
@@ -371,9 +375,6 @@ namespace Day12_Project_GameDevleop
                     lastExecutionTime0 = second;
                 }
             }
-            #endregion
         }
-
-
     }
 }

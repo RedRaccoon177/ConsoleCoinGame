@@ -13,12 +13,37 @@ namespace Day12_Project_GameDevleop
     {
         Random random = new Random();
 
+        public void SelectCoin(ref int showCoin, Coin[] coin, ref bool changeUI0, ref bool changeUI1, ref bool changeUI2, ref bool changeUI3)
+        {
+            //무슨 코인을 선택 할 것이냐?
+            bool playerKeydown = int.TryParse(Console.ReadLine(), out int showCoin1);
+
+            showCoin = showCoin1;
+
+            if (0 < showCoin && showCoin < coin.Length + 1)
+            {
+                changeUI0 = true;
+                changeUI1 = true;
+                changeUI2 = true;
+                changeUI3 = false;
+            }
+            else if(showCoin == 0)
+            {
+                changeUI0 = false;
+                changeUI1 = false;
+                changeUI2 = false;
+                changeUI3 = false;
+            }
+        }
+
+
+
         #region 매수 시스템
         public void Buy
-            (ref Coin[] coin, ref bool changeUI0, ref bool changeUI1, ref bool changeUI2,
-            LinkedList<BuyCoinNotConcluded> buyCoinNotConcludeds, ref int whereIsTheCoin)
+            (ref Coin[] coin, ref bool changeUI0, ref bool changeUI1, ref bool changeUI2, ref bool changeUI3
+            , LinkedList<BuyCoinNotConcluded> buyCoinNotConcludeds, ref int whereIsTheCoin)
         {
-            //무슨 코인을 매수 할 것이냐?
+            //무슨 코인을 선택 할 것이냐?
             bool playerKeydown = int.TryParse(Console.ReadLine(), out int playerBuyCoin);
 
             while (1 <= playerBuyCoin && playerBuyCoin <= coin.Length)
@@ -37,14 +62,16 @@ namespace Day12_Project_GameDevleop
                 buyCoinNotConcludeds.AddLast(new BuyCoinNotConcluded(howMuchBuy, howManyBuy, whereIsTheCoin, (playerBuyCoin - 1), buyORSell));
 
                 //코인의 위치 파악을 위한 +1
+
                 whereIsTheCoin += 1;
-                
+
                 break;
             }
 
             changeUI0 = false;
             changeUI1 = false;
             changeUI2 = false;
+            changeUI3 = false;
         }
         #endregion
 
@@ -238,7 +265,7 @@ namespace Day12_Project_GameDevleop
 
         //키 입력 받음 1~4번 선택해야함.
         public void GetKeyInputOneToFour
-        (ref bool changeUI0, ref bool changeUI1, ref bool changeUI2)
+        (ref bool changeUI0, ref bool changeUI1, ref bool changeUI2, ref bool changeUI3)
         {
             bool playerKeydown = false;
             int playerInput = 1;
@@ -255,36 +282,34 @@ namespace Day12_Project_GameDevleop
                     {
                         //매수 선택 시
                         case 1:
-                            //여기서 캔들 차트표로 이동시켜야 함.
                             changeUI0 = false;
                             changeUI1 = false;
-                            changeUI2 = true;
+                            changeUI2 = false;
+                            changeUI3 = true;
                             break;
 
                         //매도 선택 시
                         case 2:
-                            //여기서 캔들 차트표로 이동시켜야 함.
                             changeUI0 = false;
-                            changeUI1 = true;
+                            changeUI1 = false;
                             changeUI2 = true;
+                            changeUI3 = false;
                             break;
 
                         //미체결 창 선택 시
                         case 3:
-                            changeUI0 = true;
-                            changeUI1 = false;
-                            changeUI2 = true;
-                            Console.WriteLine("미체결 창으로 이동");
-                            Console.WriteLine("미체결 된 리스트 중 선택 삭제 기능도 추가");
-                            Console.WriteLine("자동으로 몇일 지났을 경우 삭제 기능도 추가");
+                            changeUI0 = false;
+                            changeUI1 = true;
+                            changeUI2 = false;
+                            changeUI3 = false;
                             break;
 
-
+                        //캔들 차트표 보기
                         case 4:
                             changeUI0 = true;
                             changeUI1 = true;
-                            changeUI2 = false;
-
+                            changeUI2 = true;
+                            changeUI3 = true;
                             break;
 
                         default:
@@ -294,6 +319,12 @@ namespace Day12_Project_GameDevleop
                     break;
                 }
             }
+        }
+
+        //소수점 4자리 까지만 살림
+        public float Trunf(float value)
+        {
+            return (float)(Math.Truncate(value * 10000) / 10000);
         }
     }
 }

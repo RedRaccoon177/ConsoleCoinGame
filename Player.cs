@@ -20,7 +20,7 @@ namespace Day12_Project_GameDevleop
         public float PlayerCoinAllMoney
         {
             get { return _playerCoinAllMoney; }
-            set { _playerCoinAllMoney = value; }
+            set { _playerCoinAllMoney = Trunf(value); }
         }
 
 

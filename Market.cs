@@ -33,8 +33,6 @@ namespace Day12_Project_GameDevleop
                 coinChangePrice[2] = coinPriceRandom[2].Next(100, 200);
                 coinChangePrice[3] = coinPriceRandom[3].Next(200, 300);
                 coinChangePrice[4] = coinPriceRandom[4].Next(300, 400);
-
-                //수정
                 coinChangePrice[5] = coinPriceRandom[5].Next(400, 500);
 
                 coinPercentResult[i] = coins[i].CoinPrice;
@@ -74,10 +72,6 @@ namespace Day12_Project_GameDevleop
                     coinChangePrice[5] = coinChangePrice[5] * 0.1f;            //변할 확률% ex) 40~50%
 
                     coinPercentResult[i] = coinPercentResult[i] * coinChangePrice[5] * 0.01f;
-                }
-                else
-                {
-                    //상장 폐지 만들까?
                 }
             }
 
