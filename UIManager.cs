@@ -50,33 +50,6 @@ namespace Day12_Project_GameDevleop
             }
         }
 
-        //게임 시작 시 인 게임 화면 
-        public void InGameView()
-        {
-            //Console.Clear();
-            //Console.WriteLine($"현재 보유 금액:$ {myMoney}");
-            //Console.WriteLine($"코인 보유 금액:$ {myCoinMoney}");
-            //Console.WriteLine("----------------------------------------------------------------");
-            //Console.WriteLine("|                                                              |");
-            //Console.WriteLine("|                                                              |");
-            //Console.WriteLine("|                                                              |");
-            //Console.WriteLine("|                                                              |");
-            //Console.WriteLine("|                     여기 안에 코인 차트                       |");
-            //Console.WriteLine("|                                                              |");
-            //Console.WriteLine("|                                                              |");
-            //Console.WriteLine("|                                                              |");
-            //Console.WriteLine("|                                                              |");
-            //Console.WriteLine("|                                                              |");
-            //Console.WriteLine("----------------------------------------------------------------");
-
-            //Console.WriteLine("@@@1~4번의 선택지를 선택하시오.@@@");
-
-            //Console.WriteLine("1. 주식 매수");
-            //Console.WriteLine("2. 주식 매도");
-            //Console.WriteLine("3. 돈 벌기!!");
-            //Console.WriteLine("4. 뉴스 보기");
-        }
-
         //게임 시작 시 예수금 출력 값
         public void PlayerMoney(float myMoney, float myCoinMoney)
         {
@@ -104,16 +77,16 @@ namespace Day12_Project_GameDevleop
         //게임 미체결창
         public void CoinNotConcludedList
             (Coin[] coin, LinkedList<BuyCoinNotConcluded> buyCoinNotConcludeds, Stopwatch stopwatch, GameManager gameManager,
-            ref bool changeUI0, ref bool changeUI1,ref bool changeUI2)
+            ref bool changeUI0, ref bool changeUI1,ref bool changeUI2, ref bool changeUI3)
         {
             //미체결 코인 클래스 배열화
             BuyCoinNotConcluded[] notConcluded = buyCoinNotConcludeds.ToArray();
 
             for (int i = 0; i < notConcluded.Length; i++)
             {
-                Console.WriteLine($"무슨 코인이냐? {coin[notConcluded[i].WhatCoin].Name}");
-                Console.WriteLine($"얼마에 살거냐? ${notConcluded[i].HowMuchLock}");
-                Console.WriteLine($"얼마나 살거냐? {notConcluded[i].HowManyLock}개");
+                Console.WriteLine($"미체결된 코인: {coin[notConcluded[i].WhatCoin].Name}");
+                Console.WriteLine($"미체결된 가격: ${notConcluded[i].HowMuchLock}");
+                Console.WriteLine($"미체결된 갯수: {notConcluded[i].HowManyLock}개");
                 Console.WriteLine($"삭제 번호: {notConcluded[i].MuchManyWhere}");
                 Console.WriteLine("--------------------------------------------");
             }
@@ -131,6 +104,7 @@ namespace Day12_Project_GameDevleop
                 changeUI0 = false;
                 changeUI1 = false;
                 changeUI2 = false;
+                changeUI3 = false;
                 stopwatch.Start();
             }
 
@@ -141,23 +115,28 @@ namespace Day12_Project_GameDevleop
                 gameManager.RemoveByName(buyCoinNotConcludeds, temp);
                 changeUI0 = false;
                 changeUI1 = false;
-                changeUI2 = false;
+                changeUI2 = false; 
+                changeUI3 = false;
                 stopwatch.Start();
             }
         }
 
+        //int x = 0;
+        //int y = 0;
 
         //게임 진행 중 계속 출력 되는 변동값
         public void InGameViewAllTime
-        (ref bool changeUI0, ref bool changeUI1, ref bool changeUI2,
-            int theTime, int dayby, Market market, LinkedList<Coin> coinList, Player player, Coin[] coinArray
-            , LinkedList<BuyCoinNotConcluded> buyCoinNotConcludeds, Stopwatch stopwatch, GameManager gameManager)
+            (ref bool changeUI0, ref bool changeUI1, ref bool changeUI2, ref bool changeUI3, int temp,
+            int theTime, int dayby, Market market, LinkedList<Coin> coinList, Player player, Coin[] coinArray, int _candleCount
+            , LinkedList<BuyCoinNotConcluded> buyCoinNotConcludeds, Stopwatch stopwatch, GameManager gameManager, ref int showCoin
+            , List<List<float>> mostHL, List<float> oneSpaces, List<List<float>> CVolatilityValues,
+            List<List<float>> highValues, List<int[]> howSpaces, List<List<float>> changeColor
+            )
         {
-            ClearConsole1();
+            ClearConsole0();
             Console.SetCursorPosition(0, 0);
-            int i = 1;
 
-            if (changeUI0 == false && changeUI1 == false && changeUI2 == false)
+            if (changeUI0 == false && changeUI1 == false && changeUI2 == false && changeUI3 == false)
             {
                 foreach (var coin in coinList)
                 {
@@ -166,9 +145,21 @@ namespace Day12_Project_GameDevleop
                     Console.WriteLine($"        ) {coin.CoinCount} 개 보유 중");
                     Console.WriteLine();
                 }
+                Console.WriteLine();
+                Console.WriteLine($"{(theTime) / 11}일이 지났습니다...");
+                Console.WriteLine($"{dayby} / 10");
+                Console.WriteLine($"나의 예수금 : {player.PlayerMoney}");
+                Console.WriteLine($"나의 코인 총액 : {player.PlayerCoinAllMoney}");
+                Console.WriteLine("------------------------------------------------");
+                Console.WriteLine("1번. 코인 매수");
+                Console.WriteLine("2번. 코인 매도");
+                Console.WriteLine("3번. 미체결 확인하기");
+                Console.WriteLine("4번. 캔들 차트표 보기");
+                Console.WriteLine("------------------------------------------------");
             }
-            else if (changeUI0 == false && changeUI2 == true)
+            else if (changeUI0 == false && changeUI1 == false && changeUI2 == false && changeUI3 == true)
             {
+                int i = 1;
                 foreach (var coin in coinList)
                 {
                     Console.Write($"{i}. ");
@@ -178,43 +169,77 @@ namespace Day12_Project_GameDevleop
                     Console.WriteLine();
                     i = i + 1;
                 }
-            }
-            
-            if (changeUI0 == false)
-            {
                 Console.WriteLine();
-                Console.WriteLine($"{(theTime) / 4}일이 지났습니다...");
-                Console.WriteLine($"{dayby} / 3");
+                Console.WriteLine($"{(theTime) / 11}일이 지났습니다...");
+                Console.WriteLine($"{dayby} / 10");
                 Console.WriteLine($"나의 예수금 : {player.PlayerMoney}");
                 Console.WriteLine($"나의 코인 총액 : {player.PlayerCoinAllMoney}");
-            }
-            
-            if (changeUI0 == false && changeUI1 == false && changeUI2 == false)
-            {
-                Console.WriteLine("1번. 코인 매수");
-                Console.WriteLine("2번. 코인 매도");
-                Console.WriteLine("3번. 미체결 확인하기");
-                Console.WriteLine("4번. 체결 확인하기");
-            }
-            else if (changeUI0 == false && changeUI1 == false && changeUI2 == true)
-            {
+                Console.WriteLine("------------------------------------------------");
                 Console.WriteLine("매수하고자 코인의 번호를 입력하시오.");
+                Console.WriteLine("------------------------------------------------");
+
             }
-            else if (changeUI0 == false && changeUI1 == true && changeUI2 == true)
+            else if (changeUI0 == false && changeUI1 == false && changeUI2 == true && changeUI3 == false)
             {
+                int i = 1;
+                foreach (var coin in coinList)
+                {
+                    Console.Write($"{i}. ");
+                    market.UpAndDown(coin._isCorrect);
+                    Console.Write($"{coin.Name}의 가격은: {coin.CoinPrice}");
+                    Console.WriteLine($"        ) {coin.CoinCount} 개 보유 중");
+                    Console.WriteLine();
+                    i = i + 1;
+                }
+                Console.WriteLine();
+                Console.WriteLine($"{(theTime) / 11}일이 지났습니다...");
+                Console.WriteLine($"{dayby} / 10");
+                Console.WriteLine($"나의 예수금 : {player.PlayerMoney}");
+                Console.WriteLine($"나의 코인 총액 : {player.PlayerCoinAllMoney}");
+                Console.WriteLine("------------------------------------------------");
                 Console.WriteLine("매도하고자 코인의 번호를 입력하시오.");
+                Console.WriteLine("------------------------------------------------");
             }
-            else if (changeUI0 == true && changeUI1 == false && changeUI2 == true)
+            else if (changeUI0 == true && changeUI1 == true && changeUI2 == true && changeUI2 == true)
+            {
+                int i = 1;
+                foreach (var coin in coinList)
+                {
+                    Console.Write($"{i}. ");
+                    market.UpAndDown(coin._isCorrect);
+                    Console.Write($"{coin.Name}의 가격은: {coin.CoinPrice}");
+                    Console.WriteLine($"        ) {coin.CoinCount} 개 보유 중");
+                    Console.WriteLine();
+                    i = i + 1;
+                }
+                Console.WriteLine("캔들 차트를 확인하고 싶은 코인의 번호를 입력하시오.");
+                Console.WriteLine("------------------------------------------------");
+            }
+
+
+            if (changeUI0 == false && changeUI1 == true && changeUI2 == false && changeUI2 == false)
             {
                 Console.WriteLine($"{(theTime) / 4}일이 지났습니다.");
                 Console.WriteLine();
-                CoinNotConcludedList(coinArray, buyCoinNotConcludeds, stopwatch, gameManager ,ref changeUI0, ref changeUI1, ref changeUI2);
+                CoinNotConcludedList(coinArray, buyCoinNotConcludeds, stopwatch, gameManager ,ref changeUI0, ref changeUI1, ref changeUI2, ref changeUI2);
+            }
+
+            if (changeUI0 == true && changeUI1 == true && changeUI2 == true && changeUI3 == false)
+            {
+                DisplayCandleChart
+                    (showCoin, mostHL, oneSpaces, CVolatilityValues,
+                     highValues, howSpaces, changeColor, stopwatch, gameManager, coinArray);
             }
         }
 
+        //화면 오류 출력
+        public void ErrorUI()
+        {
+            Console.WriteLine("올바른 입력값이 아닙니다.");
+        }
 
         //화면 지우기
-        public void ClearConsole1()
+        public void ClearConsole0()
         {
             Console.SetCursorPosition(0, 0);
             Console.WriteLine("                                                                                                           ");
@@ -247,5 +272,103 @@ namespace Day12_Project_GameDevleop
             Console.WriteLine("                                                                                                           ");
             Console.WriteLine("                                                                                                           ");
         }
+
+        //캔들 차트표 화면에 출력
+        public void DisplayCandleChart
+            (int showCoin, List<List<float>> mostHL, List<float> oneSpaces,List<List<float>> CVolatilityValues,
+            List<List<float>> highValues,List<int[]> howSpaces, List<List<float>> changeColor,Stopwatch stopwatch, GameManager gameManager, Coin[] coinArray)
+        {
+            if (showCoin >= 1 && showCoin <= mostHL.Count)
+            {
+                // 콘솔 출력 위치 좌표 초기화
+                ClearConsole0();
+
+                // 앞줄 가격 표시
+                int lenght = 0;
+                for (int i = 20; i >= 0; i--)
+                {
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.SetCursorPosition(0, lenght);
+                    Console.Write($"{mostHL[showCoin - 1][0] + gameManager.Trunf(oneSpaces[showCoin - 1] * i)}");
+                    lenght++;
+                }
+
+                // 캔들 차트 출력
+                int x = 13;
+                int y = 0;
+                int location = 0;
+
+                Console.SetCursorPosition(x, y);
+                for (int i = 0; i < CVolatilityValues[showCoin - 1].Count; i++)
+                {
+                    // 위치 정하는 값
+                    int forLocation = (int)Math.Ceiling((highValues[showCoin - 1][i] - mostHL[showCoin - 1][0]) / oneSpaces[showCoin - 1]);
+                    if (forLocation == 21)
+                    {
+                        forLocation = 20;
+                    }
+                    else if (21 < location)
+                    {
+                        stopwatch.Stop();
+                        break; // 안전 종료
+                    }
+
+                    location = 20 - forLocation;
+
+                    // 지정된 값만큼 출력하는 칸
+                    for (int j = 0; j < location; j++)
+                    {
+                        Console.SetCursorPosition(x, y);
+                        Console.Write(' ');
+                        y++;
+                    }
+                    for (int j = 0; j < howSpaces[showCoin - 1][i]; j++)
+                    {
+                        TrunColor(changeColor[showCoin - 1][i]);
+                        Console.SetCursorPosition(x, y);
+                        Console.Write('█');
+                        y++;
+                    }
+                    for (int j = 0; j < 20 - location - howSpaces[showCoin - 1][i]; j++)
+                    {
+                        Console.SetCursorPosition(x, y);
+                        Console.Write(' ');
+                        y++;
+                    }
+                    x++;
+                    y = 0;
+                }
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine();
+                Console.WriteLine("------------------------------------------------");
+                Console.WriteLine($"{coinArray[showCoin-1].Name}의 캔들차트 입니다.");
+                Console.WriteLine("0을 입력하시면 다시 메인화면으로 돌아갑니다.");
+            }
+            else
+            {
+                Console.WriteLine("Invalid playerBuyCoin value.");
+            }
+        }
+
+        //캔틀차트표 상승 하강 색깔변환
+        public void TrunColor(float changeCandleColor)
+        {
+            //값이 음수면 상승 빨강
+            if (changeCandleColor < 0)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+            }
+            //값이 양수면 하락 파랑
+            else if (0 < changeCandleColor)
+            {
+                Console.ForegroundColor = ConsoleColor.Blue;
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+            }
+        }
+
+
     }
 }
