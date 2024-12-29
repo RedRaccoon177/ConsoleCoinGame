@@ -38,7 +38,6 @@ namespace Day12_Project_GameDevleop
             //캔들차트의 스틱 관리
             LinkedList<float[]> candlestick = new LinkedList<float[]>();
 
-            #region
             //코인 게임 타이틀
             uIManager.Title();
             
@@ -54,15 +53,7 @@ namespace Day12_Project_GameDevleop
 
             Coin[] coin = coinList.ToArray();
 
-            //게임 시작 시 차트 출력 처음 값
-            //uIManager.GameStartChart(player, coinList);
-
-            // 게임 시작 시 예수금 출력 값
-            //uIManager.PlayerMoney(player.PlayerMoney, player.PlayerCoinAllMoney);
-            #endregion
-
-            #region 
-            //게임이 계속 진행 되도록 하는 while문!
+            #region 게임이 계속 진행 되도록 하는 while문!
             //시간 선언
             Stopwatch stopwatch = new Stopwatch();
             //시간 흐름 시작
@@ -224,7 +215,6 @@ namespace Day12_Project_GameDevleop
                     }
 
                     #region 캔들차트용
-
                     //캔들안에 3개의 코인 가격이 들어갈 것임.(0, 1, 2)
                     if (_candleCount < 3)
                     {
@@ -364,8 +354,6 @@ namespace Day12_Project_GameDevleop
                         _candleCount = 0;
                         isCreate = false;
                     }
-
-
                     #endregion
 
                     //플레이어가 보유한 모든 코인 총액

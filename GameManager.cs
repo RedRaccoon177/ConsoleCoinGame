@@ -37,7 +37,6 @@ namespace Day12_Project_GameDevleop
         }
 
 
-
         #region 매수 시스템
         public void Buy
             (ref Coin[] coin, ref bool changeUI0, ref bool changeUI1, ref bool changeUI2, ref bool changeUI3
@@ -319,12 +318,6 @@ namespace Day12_Project_GameDevleop
                     break;
                 }
             }
-        }
-
-        //소수점 4자리 까지만 살림
-        public float Trunf(float value)
-        {
-            return (float)(Math.Truncate(value * 10000) / 10000);
         }
     }
 }

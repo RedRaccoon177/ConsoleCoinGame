@@ -276,7 +276,8 @@ namespace Day12_Project_GameDevleop
         //캔들 차트표 화면에 출력
         public void DisplayCandleChart
             (int showCoin, List<List<float>> mostHL, List<float> oneSpaces,List<List<float>> CVolatilityValues,
-            List<List<float>> highValues,List<int[]> howSpaces, List<List<float>> changeColor,Stopwatch stopwatch, GameManager gameManager, Coin[] coinArray)
+            List<List<float>> highValues,List<int[]> howSpaces, List<List<float>> changeColor,Stopwatch stopwatch,
+            GameManager gameManager, Coin[] coinArray)
         {
             if (showCoin >= 1 && showCoin <= mostHL.Count)
             {
