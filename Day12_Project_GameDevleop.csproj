@@ -46,9 +46,7 @@
     <Compile Include="BuyCoinNotConcluded.cs" />
     <Compile Include="CandleChart.cs" />
     <Compile Include="Coin.cs" />
-    <Compile Include="Event.cs" />
     <Compile Include="GameManager.cs" />
-    <Compile Include="GetInputNum.cs" />
     <Compile Include="Market.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
